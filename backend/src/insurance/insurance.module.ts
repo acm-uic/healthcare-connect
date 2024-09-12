@@ -7,4 +7,4 @@ import { InsuranceService } from './insurance.service';
   controllers: [InsuranceController],
   providers: [InsuranceService],
 })
-export class AppModule {}
+export class InsuranceModule{}

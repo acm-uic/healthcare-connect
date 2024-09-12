@@ -5,8 +5,4 @@ import { InsuranceService } from './insurance.service';
 export class InsuranceController {
   constructor(private readonly insuranceService: InsuranceService) {}
 
-  @Get()
-  get(): string {
-    return "Insurance is running!";
-  }
 }
