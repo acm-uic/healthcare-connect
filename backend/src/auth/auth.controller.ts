@@ -34,4 +34,8 @@ export class AuthController {
       next(error);
     }
   }
+
+  async generateActivationToken(user: { email: string, password: string }) {
+    
+  }
 }
