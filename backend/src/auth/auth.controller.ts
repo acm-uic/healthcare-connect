@@ -2,6 +2,7 @@ import { Controller, Post, Req, Res, Next } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.schema'
+import * as jwt from 'jsonwebtoken';
 import sendEmail from '../utils/sendMail';
 
 @Controller('auth')
@@ -36,6 +37,8 @@ export class AuthController {
   }
 
   async generateActivationToken(user: { email: string, password: string }) {
-    
+    const code = Math.floor(1000 + Math.random() * 9000).toString();
+    const token = jwt.sign({ email: user.email, code }, process.env.JWT_SECRET as string, { expiresIn: '10m' });
+    return token;
   }
 }
