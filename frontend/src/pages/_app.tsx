@@ -6,6 +6,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ReduxProvider>
       <Component {...pageProps} />
+      
     </ReduxProvider>
   );
 };
