@@ -1,6 +1,7 @@
 'use client'
 import React from "react";
 import ReduxProvider from "./components/ReduxProvider";
+import "./styles/globals.css";
 
 export default function RootLayout({
   children,

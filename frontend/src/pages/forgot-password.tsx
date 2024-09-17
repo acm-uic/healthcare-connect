@@ -1,26 +1,23 @@
 'use client'
 import React from 'react';
+import { useRouter } from 'next/router';
 
-const SignUp: React.FC = () => {
+const ForgotPassword: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     }
-    
+
     return (
         <>
             <div className='container'>
                 <div className='row'>
                     <div className='col-md-6 offset-md-3'>
-                        <h2>Sign Up</h2>
+                        <h2>Forgot Password</h2>
                         <form onSubmit={handleSubmit}>
                             <div className='form-group'>
                                 <label>Email</label>
                                 <input type='email' className='form-control' required />
-                            </div>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <input type='password' className='form-control' required />
                             </div>
                             <button type='submit' className='btn btn-primary'>Submit</button>
                         </form>
@@ -29,7 +26,6 @@ const SignUp: React.FC = () => {
             </div>
         </>
     );
-
 }
 
-export default SignUp;
+export default ForgotPassword;
