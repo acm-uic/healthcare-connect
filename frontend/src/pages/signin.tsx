@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+'use client'
 
 const SignIn: React.FC = () => {
 
