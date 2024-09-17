@@ -8,7 +8,7 @@ const SignUp: React.FC = () => {
     }
     
     return  (
-        <form className="flex flex-col items-start p-4 max-w-sm mx-auto">
+        <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
           <h2 className="mb-4 text-lg">Sign Up</h2>
           <input
             type="text"
