@@ -8,22 +8,11 @@ const ForgotPassword: React.FC = () => {
     }
 
     return (
-        <>
-            <div className='container'>
-                <div className='row'>
-                    <div className='col-md-6 offset-md-3'>
-                        <h2>Forgot Password</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className='form-group'>
-                                <label>Email</label>
-                                <input type='email' className='form-control' required />
-                            </div>
-                            <button type='submit' className='btn btn-primary'>Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </>
+        <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
+          <h2 className='mb-4 text-lg'>Forgot Password</h2>
+          <input type="email" placeholder="Email" className="mb-4 p-2 border border-gray-300 rounded w-full" />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">Submit</button>
+        </form>
     );
 }
 

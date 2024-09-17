@@ -7,26 +7,22 @@ const SignIn: React.FC = () => {
     }
 
     return (
-        <>
-            <div className='container'>
-                <div className='row'>
-                    <div className='col-md-6 offset-md-3'>
-                        <h2>Sign In</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className='form-group'>
-                                <label>Email</label>
-                                <input type='email' className='form-control' required />
-                            </div>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <input type='password' className='form-control' required />
-                            </div>
-                            <button type='submit' className='btn btn-primary'>Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </>
+        <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
+            <h2 className="mb-4 text-lg">Sign In</h2>
+            <input
+                type="email"
+                placeholder="Email"
+                className="mb-2 p-2 border border-gray-300 rounded"
+            />
+            <input
+                type="password"
+                placeholder="Password"
+                className="mb-4 p-2 border border-gray-300 rounded"
+            />
+            <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+                Submit
+            </button>
+        </form>
     );
 }
 

@@ -7,27 +7,33 @@ const SignUp: React.FC = () => {
         e.preventDefault();
     }
     
-    return (
-        <>
-            <div className='container'>
-                <div className='row'>
-                    <div className='col-md-6 offset-md-3'>
-                        <h2>Sign Up</h2>
-                        <form onSubmit={handleSubmit}>
-                            <div className='form-group'>
-                                <label>Email</label>
-                                <input type='email' className='form-control' required />
-                            </div>
-                            <div className='form-group'>
-                                <label>Password</label>
-                                <input type='password' className='form-control' required />
-                            </div>
-                            <button type='submit' className='btn btn-primary'>Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </>
+    return  (
+        <form className="flex flex-col items-start p-4 max-w-sm mx-auto">
+          <h2 className="mb-4 text-lg">Sign Up</h2>
+          <input
+            type="text"
+            placeholder="Name"
+            className="mb-2 p-2 border border-gray-300 rounded w-full"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            className="mb-2 p-2 border border-gray-300 rounded w-full"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="mb-2 p-2 border border-gray-300 rounded w-full"
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            className="mb-4 p-2 border border-gray-300 rounded w-full"
+          />
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
+            Sign Up
+          </button>
+        </form>
     );
 
 }
