@@ -1,6 +1,5 @@
 'use client'
 import React from 'react';
-import { useRouter } from 'next/router';
 
 const ForgotPassword: React.FC = () => {
 
