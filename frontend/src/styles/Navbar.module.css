@@ -1,0 +1,41 @@
+/* components/Navbar.module.css */
+.navbar {
+    background-color: #000000;
+    padding: 16px;
+    margin-bottom: 16px;
+    color: white;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .navLinks {
+    display: flex;
+    list-style-type: none;
+    gap: 16px;
+  }
+  
+  .navLinks li {
+    cursor: pointer;
+  }
+  
+  .navLinks li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .active a {
+    font-weight: bold;
+    border-bottom: 2px solid white;
+  }
+  
