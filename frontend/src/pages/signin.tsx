@@ -1,10 +1,14 @@
 'use client'
 
+import { useEffect } from 'react';
+
 const SignIn: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
     }
+
+    
 
     return (
         <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
