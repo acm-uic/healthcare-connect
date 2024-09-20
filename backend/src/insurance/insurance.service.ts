@@ -27,9 +27,7 @@ export class InsuranceService {
 
     // 
     /**
-     *  ***Needs testing []***
      * 
-     *  "I tried deleting, but it never worked... Maybe a priviledge issue?"
      * 
      * @param id sting id of schema to delete
      * @returns ([] Should there be certain codes?)
@@ -51,7 +49,6 @@ export class InsuranceService {
     
     /**
      * 
-     * ***Needs testing []***
      * 
      * Updates an insurance plan via string id
      * 
