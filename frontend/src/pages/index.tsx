@@ -5,7 +5,7 @@ import React from "react";
 const Home: React.FC = () => {
     return (
         <>
-            <div className="flex flex-col border border-solid p-16 mt-32">
+            <div className="flex flex-col p-16 mt-32">
                 <h1 className="text-6xl font-bold">
                     Find the most affordable
                     <br />
