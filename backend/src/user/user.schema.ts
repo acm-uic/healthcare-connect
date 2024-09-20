@@ -1,11 +1,12 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
+import { IInsurancePlan } from '../insurance/insurance.schema';
 
 export interface IUser extends Document {
   name: string;
   email: string;
   password: string;
   role: string;
-  savedServices: string[];
+  savedInsurancePlans: IInsurancePlan['_id'][];
   language: string;
 }
 
@@ -15,7 +16,7 @@ const UserSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, required: true },
-    savedServices: { type: [String], default: [] },
+    savedInsurancePlans: [{ type: Schema.Types.ObjectId, ref: 'InsurancePlan' }],
   },
   { timestamps: true }
 );
