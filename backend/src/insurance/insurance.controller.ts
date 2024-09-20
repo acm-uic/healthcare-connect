@@ -11,25 +11,24 @@ export class InsuranceController {
     return this.insuranceService.getAll();
   }
 
-  @Get('/:id')
+  @Get(':id')
   async getInsurancePlanByID(@Param('id') id:string){
     return this.insuranceService.get(id);
   }
 
 
-  @Delete('/:id') //delete
+  @Delete(':id')
   async deleteSpecificInsurancePlan(@Param('id') id:string){
     return this.insuranceService.delete(id)
   }
 
-  
   @Post()
   async createInsurancePlan(@Body() data: IInsurancePlan){
     return this.insuranceService.create(data)
   }
 
-  @Put('/:id')
-  async updateInsurancePlan(@Param('id') id:string, @Body() data: IInsurancePlan){
+  @Put(':id')
+  async updateInsurancePlan(@Param('id') id: string, @Body() data: IInsurancePlan){
     return this.insuranceService.update(id,data)
 
   }

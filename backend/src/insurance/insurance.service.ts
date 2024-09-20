@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IInsurancePlan, InsurancePlan } from './insurance.schema';
 
-
 @Injectable()
 export class InsuranceService {
 
@@ -36,9 +35,7 @@ export class InsuranceService {
      * @returns ([] Should there be certain codes?)
      */
     async delete(id: string) {
-        InsurancePlan.findByIdAndDelete(id);
-        console.log(`Deleted insurance plan id ${id}...`)
-        return "BANNED!"
+        await InsurancePlan.findByIdAndDelete(id);
     }
 
     /**
@@ -48,10 +45,9 @@ export class InsuranceService {
      * @returns 1 ([] Needs a try-except maybe?)
      */
     async create(data: IInsurancePlan){
-        InsurancePlan.create(data);
-        return 1
+        const newInsurancePlan = new InsurancePlan(data);
+        return newInsurancePlan.save();
     }
-
     
     /**
      * 
@@ -63,8 +59,7 @@ export class InsuranceService {
      * @param data data to update the plan with
      * @returns 
      */
-    async update(id:string, data: IInsurancePlan){
-        InsurancePlan.findByIdAndUpdate(id, data);
-        return 1
+    async update(id: string, data: IInsurancePlan){
+        await InsurancePlan.findByIdAndUpdate(id, data);
     }
 }   
