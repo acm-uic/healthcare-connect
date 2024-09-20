@@ -63,13 +63,3 @@ export class InsuranceService {
         await InsurancePlan.findByIdAndUpdate(id, data);
     }
 }   
-    // async create(insurance: any) {
-    //     try {
-    //         const newInsurance = new InsurancePlan(insurance);
-    //         return await newInsurance.save();
-    //     } catch (error: any) {
-    //         return error;
-    //     }
-    // }
-
-}
