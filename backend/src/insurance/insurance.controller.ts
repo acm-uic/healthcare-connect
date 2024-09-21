@@ -12,13 +12,13 @@ export class InsuranceController {
   }
 
   @Get(':id')
-  async getInsurancePlanByID(@Param('id') id:string){
+  async getInsurancePlanByID(@Param('id') id: string){
     return this.insuranceService.get(id);
   }
 
 
   @Delete(':id')
-  async deleteSpecificInsurancePlan(@Param('id') id:string){
+  async deleteSpecificInsurancePlan(@Param('id') id: string){
     return this.insuranceService.delete(id)
   }
 

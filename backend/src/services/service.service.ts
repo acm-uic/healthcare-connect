@@ -1,25 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { Service, IService } from './service.schema';
+import { IService, Service } from './service.schema';
 import { CreateServiceDto } from './dto/create-service.dto';
-import { UpdateServiceDto } from './dto/update-service.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { NotFoundError } from 'rxjs';
-
-
 
 @Injectable()
-export class ServiceService 
-    {
-        constructor(@InjectModel('Service') private serviceModel:Model<IService>) { }
+export class ServiceService {
 
         async createService(createServiceDto: CreateServiceDto): Promise<IService> {
-            const newService = await new this.serviceModel(createServiceDto);
+            const newService = await new Service(createServiceDto);
             return newService.save();
         }
 
         async getAllServices(): Promise<IService[]>{
-            const serviceData = await this.serviceModel.find();
+            const serviceData = await Service.find();
 
             if (!serviceData || serviceData.length == 0){
                 throw new NotFoundException('Services data not found!');
@@ -27,18 +19,18 @@ export class ServiceService
             return serviceData;
         }
         
-        async updateService(serviceId: string, updateServiceDto: UpdateServiceDto): Promise<IService>
-        {
-            const existingService = await this.serviceModel.findByIdAndUpdate(serviceId, updateServiceDto, {new: true});
-            if(!existingService){
-                throw new NotFoundException('Service #${serviceId} not found');
-            }
-            return existingService;
-        }
+        // async updateService(serviceId: string, updateServiceDto: UpdateServiceDto): Promise<IService>
+        // {
+        //     const existingService = await this.serviceModel.findByIdAndUpdate(serviceId, updateServiceDto, {new: true});
+        //     if(!existingService){
+        //         throw new NotFoundException('Service #${serviceId} not found');
+        //     }
+        //     return existingService;
+        // }
 
         async deleteService(serviceId: string): Promise<IService>
         {
-            const deletedService = await this.serviceModel.findByIdAndDelete(serviceId);
+            const deletedService = await Service.findByIdAndDelete(serviceId);
             if(!deletedService){
                 throw new NotFoundException('Service #${serviceId} not found');
             }
@@ -47,11 +39,11 @@ export class ServiceService
 
         async getService(serviceId: string): Promise<IService>
         {
-            const specificService = await this.serviceModel.findById(serviceId);
-            if(!specificService){
+            const service = await Service.findById(serviceId);
+            if(!service){
                 throw new NotFoundException('Service #${serviceId} not found');
             }
-            return specificService;
+            return service;
         }
 
     }
