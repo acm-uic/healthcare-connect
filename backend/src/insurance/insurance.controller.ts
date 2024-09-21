@@ -1,13 +1,11 @@
 import { Controller, Get, Delete, Post, Put, Param, Body } from '@nestjs/common';
 import { InsuranceService } from './insurance.service';
 import { IInsurancePlan } from './insurance.schema';
-import { Roles } from 'src/auth/roles.decorator';
 
 @Controller('insurance')
 export class InsuranceController {
   constructor(private readonly insuranceService: InsuranceService) {}
 
-  @Roles('admin')
   @Get()
   async getAllInsurancePlans(){
     return this.insuranceService.getAll();
