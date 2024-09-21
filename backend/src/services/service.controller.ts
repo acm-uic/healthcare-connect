@@ -13,7 +13,7 @@ export class ServiceController
   {
     try 
     {
-      const newService = await this.serviceService.createService(createServiceDto);
+      const newService = await this.serviceService.create(createServiceDto);
       return response.status(201).json({
         message: 'Service has been created successfully', newService
       });
@@ -29,7 +29,7 @@ export class ServiceController
   {
     try
     {
-      const serviceData = await this.serviceService.getAllServices();
+      const serviceData = await this.serviceService.getAll();
       return response.status(201).json({
         message: 'All services data found successfully', serviceData});
     } catch (err)
@@ -64,7 +64,7 @@ export class ServiceController
   async deleteService(@Param('id') serviceId: string)
   {
     try{
-      const deletedService = await this.serviceService.deleteService(serviceId);
+      const deletedService = await this.serviceService.delete(serviceId);
       return response.status(201).json({
         message: 'Service successfully deleted', deletedService
       })
@@ -81,7 +81,7 @@ export class ServiceController
   async getService(@Param('id') serviceId: string)
   {
     try{
-      const specificService = await this.serviceService.getService(serviceId);
+      const specificService = await this.serviceService.get(serviceId);
       return response.status(201).json({
         message: 'Service successfully received', specificService
       })

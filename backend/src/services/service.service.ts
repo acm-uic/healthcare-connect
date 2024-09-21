@@ -5,12 +5,12 @@ import { CreateServiceDto } from './dto/create-service.dto';
 @Injectable()
 export class ServiceService {
 
-    async createService(createServiceDto: CreateServiceDto): Promise<IService> {
+    async create(createServiceDto: CreateServiceDto): Promise<IService> {
         const newService = await new Service(createServiceDto);
         return newService.save();
     }
 
-    async getAllServices(): Promise<IService[]>{
+    async getAll(): Promise<IService[]>{
         const serviceData = await Service.find();
 
         if (!serviceData || serviceData.length == 0){
@@ -28,7 +28,7 @@ export class ServiceService {
     //     return existingService;
     // }
 
-    async deleteService(serviceId: string): Promise<IService>
+    async delete(serviceId: string): Promise<IService>
     {
         const deletedService = await Service.findByIdAndDelete(serviceId);
         if(!deletedService){
@@ -37,7 +37,7 @@ export class ServiceService {
         return deletedService;
     }
 
-    async getService(serviceId: string): Promise<IService>
+    async get(serviceId: string): Promise<IService>
     {
         const service = await Service.findById(serviceId);
         if(!service){
