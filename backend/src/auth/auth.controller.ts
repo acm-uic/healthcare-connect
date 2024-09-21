@@ -68,4 +68,9 @@ export class AuthController {
       res.status(400).json({ message: 'Invalid token' });
     }
   }
+
+  @Post('signin')
+  async signin(@Req() req: Request, @Res() res: Response) {
+    
+  }
 }
