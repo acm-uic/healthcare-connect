@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import styles from "../styles/Navbar.module.css";
 import { useRouter } from "next/router";
 
-// import logo from "../assets/images/logo-placeholder.jpg";
-import logo from  '../../public/logo-placeholder2.png'
+import logo from  '../../public/logo.png'
 
 export default function Navbar() {
   const router = useRouter();

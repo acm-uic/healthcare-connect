@@ -5,8 +5,8 @@ import React from "react";
 const Home: React.FC = () => {
     return (
         <>
-            <div className="flex flex-col p-16 mt-32">
-                <h1 className="text-6xl font-bold">
+            <div className="flex flex-col p-20 mt-30">
+                <h1 className="text-4xl font-semibold tracking-wide">
                     Find the most affordable
                     <br />
                     medical services
