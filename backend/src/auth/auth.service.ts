@@ -1,21 +1,35 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { JwtPayload } from "./interfaces/jwt.payload";
+import bcrypt from "bcryptjs";
 
 //Temporary until UserService is implemented
 import { User } from "src/user/user.schema";
-import { isValidObjectId } from "mongoose";
+
 
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService) {}
 
-  async validateUserById(userId: string): Promise<boolean> {
+  async validateUser({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }): Promise<string> {
+    if (!email || !password)
+      throw new BadRequestException("Email and password are required");
 
-    if (!isValidObjectId(userId)) return false;
+    const user = await User.findOne({ email });
 
-    const user = await User.findById(userId);
+    if (!user) throw new NotFoundException("User not found");
 
-    return !!user;
+    const isSamePassword = await bcrypt.compare(password, user.password)
+
+    if (!isSamePassword) throw new BadRequestException("Invalid password");
+
+    const token = this.jwtService.sign({ sub: user._id, email: user.email, role: user.role });
+
+    return token;
   }
 }
