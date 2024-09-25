@@ -42,7 +42,7 @@ export class ServiceController
     }
 
   // @Put('/:id')
-  // async updateService(@Res() Response, @Param('id') serviceId: string, @Body() updateServiceDto: UpdateServiceDto) 
+  // async updateService(@Res() response, @Param('id') serviceId: string, @Body() updateServiceDto: UpdateServiceDto) 
   // {
   //   try 
   //     {
