@@ -1,6 +1,5 @@
 import { Controller, Req, Get, Post, Put, Delete, Param, Body, UseGuards, Res } from '@nestjs/common';
 import { UserService } from './user.service';
-import { response } from 'express';
 
 @Controller('user')
 export class UserController {
