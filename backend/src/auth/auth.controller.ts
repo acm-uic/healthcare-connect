@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { User } from '../user/user.schema'
 import * as jwt from 'jsonwebtoken';
 import sendEmail from '../utils/sendMail';
+import {AuthClientSideErrorMessages as AEM}   from './auth.service';
 
 import bcrypt from "bcrypt";
 
@@ -46,9 +47,15 @@ export class AuthController {
   }
 
 
+
+
   /**
    * 
    * NEEDS TESTING []
+   * 
+   * body of message:
+   *  1) email
+   *  2) password
    * 
    * @param req 
    * @param res 
@@ -59,18 +66,23 @@ export class AuthController {
   async signin(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     // If there is an error that occurs in any of this, send an internal server error.
     try {
-      // Hmm
+      // parse request body
       const { email, password } = req.body;
+
+      // codes for if email and password are blank.
+      if(!email) return res.status(400).json({ message: AEM.noEmail });
+
+      if(!password) return res.status(400).json({ message: AEM.noPwd });
+
       // find the user
       const user = await User.findOne({ email });
 
       // Check: email not found error:
       if (!user) {
-        return res.status(400).json({ message: 'User email not found' });
+        return res.status(400).json({ message: AEM.emailNotFound });
       }
 
       // user.password is a hash...
-      // call back can be added here []
       if(bcrypt.compare(password, user.password)){
         console.log("sucessful login of " + email);
 
@@ -81,11 +93,11 @@ export class AuthController {
         }
       }
       // if not, just 
-      return res.status(401).json({message: 'Password Incorrect'});
+      return res.status(401).json({message: AEM.incorrectPwd});
     }
     catch (error) {
       console.log("Error has occured in auth.controller: " + error)
-      return res.status(500).json({ message: 'An internal server error has occured, please notify Dev Team.' });
+      return res.status(500).json({ message: AEM.internalError });
     }
   }
 }
