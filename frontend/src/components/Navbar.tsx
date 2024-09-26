@@ -23,7 +23,7 @@ export default function Navbar() {
         </div>
         <ul className={styles.navLinks}>
           <li className={router.pathname === '/' ? styles.active : ''}>
-            <Link href="/">Home</Link>
+            <Link href="/">Test</Link>
           </li>
           <li className={router.pathname === '/about' ? styles.active : ''}>
             <Link href="/about">About Us</Link>
