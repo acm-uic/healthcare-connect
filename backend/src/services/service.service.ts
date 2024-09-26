@@ -37,13 +37,12 @@ export class ServiceService {
         return deletedService;
     }
 
-    async get(serviceId: string): Promise<IService>
-    {
+    async get(serviceId: string) {
         const service = await Service.findById(serviceId);
-        if(!service){
+        if (!service){
             throw new NotFoundException('Service #${serviceId} not found');
         }
-        return service;
+        return service
     }
 
 }
