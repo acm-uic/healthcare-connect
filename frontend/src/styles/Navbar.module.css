@@ -1,41 +1,65 @@
 /* components/Navbar.module.css */
+
+/*@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .navbar {
-    background-color: #000000;
-    padding: 16px;
-    margin-bottom: 16px;
-    color: white;
+    background-color: #ffffff;
+    padding: 3em 6em;
+    color: #243248;
+    /*
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    */
+    font-family: "Poppins", sans-serif;
+    font-size: 1rem;
   }
   
   .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
+    max-width: 100em; 
     margin: 0 auto;
+    flex-direction: row;
   }
   
   .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  .logo_text {
+    padding: 0.4em 0 0 0.6em;
+    line-height: 1;
+  }
+
+  .logo_image {
+    max-width: 1.5em;
+    max-height: 1.5em;
+    margin-top: 0.25em;
   }
   
   .navLinks {
     display: flex;
     list-style-type: none;
-    gap: 16px;
+    gap: 1em;
   }
   
   .navLinks li {
+    /*letter-spacing: 0.5px;*/
     cursor: pointer;
+    color: #8f8a99;
+    /*font-size: 1.2rem;*/
   }
   
   .navLinks li a {
-    color: white;
     text-decoration: none;
   }
-  
+
   .active a {
-    font-weight: bold;
     border-bottom: 2px solid white;
+    color: #243248;
+    font-weight: 500;
   }
   

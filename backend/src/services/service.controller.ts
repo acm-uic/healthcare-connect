@@ -78,17 +78,16 @@ export class ServiceController
   }
 
   @Get(':id')
-  async getService(@Param('id') serviceId: string)
-  {
+  async getService(@Param('id') serviceId: string) {
     try{
-      const specificService = await this.serviceService.get(serviceId);
-      return response.status(201).json({
-        message: 'Service successfully received', specificService
-      })
+      const service = await this.serviceService.get(serviceId);
+      return service;
     } catch (err){
-      return response.status(400).json({
-        message: 'Error: Service not found'
-      })
+      return response.status(400).json(
+        {
+          message: 'Error: Service not found'
+        }
+      )
     }
   }
 }
