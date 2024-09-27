@@ -5,10 +5,6 @@ import { User } from '../user/user.schema';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import sendEmail from '../utils/sendMail';
-import {AuthClientSideErrorMessages as AEM}   from './auth.service';
-
-import bcrypt from "bcrypt";
-
 
 @Controller('auth')
 export class AuthController {
@@ -73,8 +69,16 @@ export class AuthController {
     }
   }
 
+  /**
+   * 
+   *  NEEDS TESTING
+   * 
+   * @param req 
+   * @param res 
+   */
   @Post('signin')
   async signin(@Req() req: Request, @Res() res: Response) {
-
+    const { email, password } = req.body;
+    return this.authService.validateUser({ email, password })
   }
 }
