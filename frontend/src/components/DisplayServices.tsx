@@ -76,7 +76,7 @@ const DisplayServices = () => {
                     <h3>Cost: ${service.cost}</h3>
                     
                     <button className={styles.details}>
-                        <Link href="/">Learn More</Link>
+                        <Link href={`/services/${service._id}`}>Learn More</Link>
                     </button> 
                 </div>
             </div>
