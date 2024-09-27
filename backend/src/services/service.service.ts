@@ -32,7 +32,7 @@ export class ServiceService {
     {
         const deletedService = await Service.findByIdAndDelete(serviceId);
         if(!deletedService){
-            throw new NotFoundException('Service #${serviceId} not found');
+            throw new NotFoundException('Service not found');
         }
         return deletedService;
     }
@@ -40,7 +40,7 @@ export class ServiceService {
     async get(serviceId: string) {
         const service = await Service.findById(serviceId);
         if (!service){
-            throw new NotFoundException('Service #${serviceId} not found');
+            throw new NotFoundException('Service not found');
         }
         return service
     }
