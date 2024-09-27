@@ -18,15 +18,6 @@ export class ServiceService {
         }
         return serviceData;
     }
-    
-    // async updateService(serviceId: string, updateServiceDto: UpdateServiceDto): Promise<IService>
-    // {
-    //     const existingService = await this.serviceModel.findByIdAndUpdate(serviceId, updateServiceDto, {new: true});
-    //     if(!existingService){
-    //         throw new NotFoundException('Service #${serviceId} not found');
-    //     }
-    //     return existingService;
-    // }
 
     async delete(serviceId: string): Promise<IService>
     {
@@ -43,6 +34,14 @@ export class ServiceService {
             throw new NotFoundException('Service not found');
         }
         return service
+    }
+
+    async update(serviceId: string, createServiceDto: CreateServiceDto) {
+        const updatedService = await Service.findByIdAndUpdate(serviceId, createServiceDto, {new: true});
+        if (!updatedService){
+            throw new NotFoundException('Service not found');
+        }
+        return updatedService;
     }
 
 }

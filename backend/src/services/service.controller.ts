@@ -1,7 +1,6 @@
 import { Controller, Post, Get, Put, Delete, Res, Body, Param } from '@nestjs/common';
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
-import { response } from 'express';
 
 @Controller('service')
 export class ServiceController 
@@ -15,7 +14,7 @@ export class ServiceController
     {
       const newService = await this.serviceService.create(createServiceDto);
       return response.status(201).json({
-        message: 'Service has been created successfully', newService
+        message: 'Service successfully created', newService
       });
     } catch (err){
         return response.status(400).json({
@@ -30,8 +29,7 @@ export class ServiceController
     try
     {
       const serviceData = await this.serviceService.getAll();
-      return response.status(201).json({
-        message: 'All services data found successfully', serviceData});
+      return response.status(200).json(serviceData);
     } catch (err)
       {
         return response.status(400).json(
@@ -41,27 +39,23 @@ export class ServiceController
       }
     }
 
-  // @Put('/:id')
-  // async updateService(@Res() response, @Param('id') serviceId: string, @Body() updateServiceDto: UpdateServiceDto) 
-  // {
-  //   try 
-  //     {
-  //     const existingService = await this.serviceService.updateService(serviceId, updateServiceDto);
-  //     return response.status(201).json({
-  //       message: 'Service successfully updated', existingService});
-
-  //     } catch (err)
-  //     {
-  //       return response.status(400).json(
-  //         {
-  //           message: 'Error: Service not updated'
-  //         }
-  //       )
-  //     }
-  // }
+  @Put(':id')
+  async updateService(@Param('id') serviceId: string, @Body() createServiceDto: CreateServiceDto, @Res() response)
+  {
+    try{
+      const updatedService = await this.serviceService.update(serviceId, createServiceDto);
+      return updatedService
+    } catch (err){
+      return response.status(400).json(
+        {
+          message: 'Error: Service not updated'
+        }
+      )
+    }
+  }
 
   @Delete(':id')
-  async deleteService(@Param('id') serviceId: string)
+  async deleteService(@Param('id') serviceId: string, @Res() response)
   {
     try{
       const deletedService = await this.serviceService.delete(serviceId);
@@ -78,10 +72,11 @@ export class ServiceController
   }
 
   @Get(':id')
-  async getService(@Param('id') serviceId: string) {
+  async getService(@Param('id') serviceId: string, @Res() response)
+  {
     try{
       const service = await this.serviceService.get(serviceId);
-      return service;
+      return response.status(200).json(service);
     } catch (err){
       return response.status(400).json(
         {
