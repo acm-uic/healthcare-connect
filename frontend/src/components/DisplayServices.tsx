@@ -29,6 +29,9 @@ const DisplayServices = () => {
         serviceData: []
     })
 
+    const [isLoading, setIsLoading] = useState(true)
+    const [error, setError] = useState<Error | null>(null)
+
     const services_uri = `${process.env.NEXT_PUBLIC_API_URL}/service`
 
     const fetchServices = async () => {
@@ -41,10 +44,18 @@ const DisplayServices = () => {
             }
             const result:ServiceData = await res.json() 
             //console.log(result)
-
             setServicesData(result)
+            setIsLoading(false)
         } catch (err) {
             console.log("err:", err)
+            
+            if (err instanceof Error) {
+                setError(err)
+            } else {
+                setError(new Error("An unknown error has occured"))
+            }
+
+            setIsLoading(false)
         }
     }
 
@@ -74,10 +85,11 @@ const DisplayServices = () => {
 
     return (
         <div className={styles.container}>
-            <h1>Services</h1>
+            <h1>Services</h1> 
+            {isLoading && <p>Loading...</p>} 
+            {error && <p>Error: {error.message}</p>}
             <div className={styles.container_grid}>
                 {renderedServices}
-
             </div>
         </div>
     )
