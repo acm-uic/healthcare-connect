@@ -6,11 +6,11 @@ import { CreateServiceDto } from './dto/create-service.dto';
 export class ServiceService {
 
     async create(createServiceDto: CreateServiceDto): Promise<IService> {
-        const newService = await new Service(createServiceDto);
+        const newService = new Service(createServiceDto);
         return newService.save();
     }
 
-    async getAll(): Promise<IService[]>{
+    async getAll() {
         const serviceData = await Service.find();
 
         if (!serviceData || serviceData.length == 0){
@@ -19,7 +19,7 @@ export class ServiceService {
         return serviceData;
     }
 
-    async delete(serviceId: string): Promise<IService>
+    async delete(serviceId: string)
     {
         const deletedService = await Service.findByIdAndDelete(serviceId);
         if(!deletedService){
