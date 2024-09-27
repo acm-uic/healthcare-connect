@@ -4,6 +4,38 @@ import { Service } from 'src/services/service.schema';
 
 @Injectable()
 export class UserService {
+
+    async getUser(userId: string) {
+        const user = await User.findById(userId);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return user;    
+    }
+
+    async getUsers() {
+        const users = await User.find();
+        if (!users || users.length == 0) {
+            throw new NotFoundException('Users not found');
+        }
+        return users;
+    }
+
+    async deleteUser(userId: string) {
+        const user = await User.findByIdAndDelete(userId);
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return user;
+    }
+
+    async updateUser(userId: string, update: any) {
+        const user = await User.findByIdAndUpdate(userId, update, {new: true});
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return user;   
+    }
     
     async saveService(userId: string, serviceId: string) {
         const user = await User.findById(userId);
