@@ -5,5 +5,15 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('getAll')
+  async getUsers(){
+    const users = this.userService.getAll();
+    return users;
+  }
+  @Get(':id')
+  async getUser(@Param('id')id:string){
+    const user = this.userService.get(id)
+    return user;
+  }
   
 }
