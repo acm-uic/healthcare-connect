@@ -71,4 +71,13 @@ export class UserService {
         }
         return user;
     }
+
+    async getServices(userId: string) {
+        const user = await User.findById(userId).populate('savedServices');
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return user.savedServices;
+    }
 }

@@ -62,4 +62,18 @@ export class UserController {
         throw err;
       }
     }
+
+  @Get(':userId/services')
+    async getServices(@Param('userId') userId: string){
+      try
+      {
+        const services = await this.userService.getServices(userId);
+        return services;
+      } 
+      catch(err)
+      {
+        console.error(err);
+        throw err;
+      }
+    }  
 }
