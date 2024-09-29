@@ -61,4 +61,3 @@ export class InsuranceService {
         await InsurancePlan.findByIdAndUpdate(id, data);
     }
 }   
-}   
