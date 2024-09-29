@@ -79,4 +79,24 @@ export class UserService {
         }
         return user.savedServices;
     }
+
+    async removeSavedService(userId: string, serviceId: string){
+        const user = await User.findById(userId);
+
+        if(!user){
+            throw new NotFoundException("User not found");
+        }
+
+        if(!user.savedServices.includes(serviceId)){
+            throw new NotFoundException("Saved Service is not found");
+        }
+
+        //Remove the saved service from the array
+        user.savedServices = user.savedServices.filter((savedServiceId) => {
+            savedServiceId.toString() !== serviceId
+        });
+
+        await user.save();
+        return user;
+    }
 }

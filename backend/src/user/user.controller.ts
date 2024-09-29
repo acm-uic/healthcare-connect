@@ -1,4 +1,4 @@
-import { Controller, Req, Get, Post, Put, Delete, Param, Body, UseGuards, Res, BadRequestException, HttpStatus } from '@nestjs/common';
+import { Controller, Req, Get, Post, Put, Delete, Param, Body, UseGuards, Res, BadRequestException, HttpStatus, NotFoundException  } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -75,5 +75,23 @@ export class UserController {
         console.error(err);
         throw err;
       }
-    }  
+    }
+    
+    @Delete(':userId/remove-service/:serviceId')
+    async removeSavedService(
+      @Param('userId') userId: string,
+      @Param('serviceId') serviceId: string
+    ){
+      try{
+        const updatedUser = await this.userService.removeSavedService(userId, serviceId);
+        return {
+          message: 'Service removed successfully',
+          user: updatedUser,
+        };
+
+      } catch(err){
+        console.log(err);
+        throw err;
+      }
+    }
 }
