@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res, Next } from '@nestjs/common';
+import { Controller, Post, Req, Res, Next, Body } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.schema';
@@ -8,7 +8,7 @@ import sendEmail from '../utils/sendMail';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('signup')
   async signup(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
@@ -69,8 +69,16 @@ export class AuthController {
     }
   }
 
+  /**
+   * 
+   *  NEEDS TESTING
+   * 
+   * @param req 
+   * @param res 
+   */
   @Post('signin')
   async signin(@Req() req: Request, @Res() res: Response) {
-
+    const { email, password } = req.body;
+    return this.authService.validateUser({ email, password })
   }
 }
