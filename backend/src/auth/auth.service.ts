@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import bcrypt from "bcryptjs";
-
-//Temporary until UserService is implemented
-import { User } from "src/user/user.schema";
-
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private userService: UserService
+  ) {}
 
   async validateUser({
     email,
@@ -20,7 +20,7 @@ export class AuthService {
     if (!email || !password)
       throw new BadRequestException("Email and password are required");
 
-    const user = await User.findOne({ email });
+    const user = await this.userService.getUserByEmail(email);
 
     if (!user) throw new NotFoundException("User not found");
 

@@ -1,11 +1,11 @@
-import { Controller, Post, Get, Put, Delete, Res, Body, Param } from '@nestjs/common';
+import { Controller, Post, Get, Put, Delete, Res, Body, Param, Req, Query } from '@nestjs/common';
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 
 @Controller('service')
 export class ServiceController 
 {
-  constructor(private readonly serviceService: ServiceService) { }
+  constructor(private readonly serviceService: ServiceService) {}
 
   @Post()
   async createService(@Res() response, @Body() createServiceDto: CreateServiceDto)

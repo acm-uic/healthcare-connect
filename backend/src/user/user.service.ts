@@ -13,6 +13,14 @@ export class UserService {
         return user;    
     }
 
+    async getUserByEmail(email: string) {
+        const user = await User.findOne({email: email});
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+        return user;
+    }
+
     async getUsers() {
         const users = await User.find();
         if (!users || users.length == 0) {
