@@ -69,16 +69,19 @@ export class AuthController {
     }
   }
 
-  /**
-   * 
-   *  NEEDS TESTING
-   * 
-   * @param req 
-   * @param res 
-   */
   @Post('signin')
   async signin(@Req() req: Request, @Res() res: Response) {
-    const { email, password } = req.body;
-    return this.authService.validateUser({ email, password })
+    try {
+      const { email, password } = req.body
+      if (!email || !password) return res.status(400).json({ message: 'Please provide an email and password' });
+
+      const user = await this.authService.validateUser(email, password);
+      if (!user) return res.status(400).json({ message: 'Invalid credentials' })
+
+      const tokens = await this.authService.login(user, res);
+      return res.status(200).json(tokens);
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
   }
 }

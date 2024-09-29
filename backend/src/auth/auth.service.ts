@@ -1,35 +1,43 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import bcrypt from "bcryptjs";
-import { UserService } from "src/user/user.service";
+import { User } from "../user/user.schema";
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private jwtService: JwtService,
-    private userService: UserService
-  ) {}
+  constructor( private jwtService: JwtService ) {}
 
-  async validateUser({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }): Promise<string> {
-    if (!email || !password)
-      throw new BadRequestException("Email and password are required");
+  async validateUser(email: string, password: string): Promise<any> {
+    const user = await User.findOne({ email }).select('+password');
+    if (user && await user.comparePassword(password)) {
+      const { password, ...result } = user.toObject();
+      return result;
+    }
+    return null;
+  }
 
-    const user = await this.userService.getUserByEmail(email);
+  async login(user: any, res: any) {
+    const payload = { sub: user._id };
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '1h' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '1d' });
 
-    if (!user) throw new NotFoundException("User not found");
+    res.cookie('access_token', accessToken, { httpOnly: true, secure: true });
+    res.cookie('refresh_token', refreshToken, { httpOnly: true, secure: true });
 
-    const isSamePassword = await bcrypt.compare(password, user.password)
+    return {
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    };
+  }
 
-    if (!isSamePassword) throw new BadRequestException("Invalid password");
+  async refreshToken(user: any, res: any) {
+    const payload = { username: user.username, sub: user._id };
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '1h' });
 
-    const token = this.jwtService.sign({ sub: user._id, email: user.email, role: user.role });
+    res.cookie('access_token', accessToken, { httpOnly: true, secure: true });
+    return { access_token: accessToken };
+  }
 
-    return token;
+  async logout(user: any, res: any) {
+    
   }
 }
