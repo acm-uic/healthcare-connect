@@ -27,19 +27,42 @@ export class InsuranceController {
   }
 
   @Get()
-  async getAllInsurancePlans(){
-    return this.insuranceService.getAll();
+  async getAllInsurancePlans(@Res() res){
+    try 
+    { 
+      const plan = await this.insuranceService.getAll()
+      return res.status(200).json(plan);
+    } catch(error)
+    {
+      return res.status(404).json({ message: 'Error: No insurance plans were found' })
+    }
   }
 
   @Get(':id')
-  async getInsurancePlanByID(@Param('id') id: string){
-    return this.insuranceService.get(id);
+  async getInsurancePlanByID(@Param('id') id: string, @Res() res){
+    try
+    {
+      const plan = await this.insuranceService.get(id);
+      return await res.status(200).json(plan);
+    }
+    catch(error)
+    {
+      return res.status(404).json({message: 'Error: No insurances by that ID was found'})
+    }
   }
 
 
   @Delete(':id')
-  async deleteSpecificInsurancePlan(@Param('id') id: string){
-    return this.insuranceService.delete(id)
+  async deleteSpecificInsurancePlan(@Param('id') id: string, @Res() res){
+    try
+    {
+      const plan = await this.insuranceService.delete(id)
+      return res.status(200).json(plan);
+    }
+    catch(error)
+    {
+      return res.status(404).json({message: 'Error: No insurances by that ID was found'})
+    }
   }
 
   @Post()
@@ -48,7 +71,15 @@ export class InsuranceController {
   }
 
   @Put(':id')
-  async updateInsurancePlan(@Param('id') id: string, @Body() data: IInsurancePlan){
-    return this.insuranceService.update(id,data)
+  async updateInsurancePlan(@Param('id') id: string, @Body() data: IInsurancePlan, @Res() res){
+    try
+    {
+      const plan = await this.insuranceService.update(id,data)
+      return res.status(200).json(plan);
+    }
+    catch(error)
+    {
+      return res.status(404).json({message: 'Error: No insurances by that ID was found'})
+    }
   }
 }
