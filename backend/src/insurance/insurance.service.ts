@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IInsurancePlan, InsurancePlan } from './insurance.schema';
 
 @Injectable()
@@ -9,8 +9,14 @@ export class InsuranceService {
      * 
      * @returns InsurancePlan array
      */
-    async getAll() {
-        return InsurancePlan.find();
+    async getAll() 
+    {
+        const insurances = await InsurancePlan.find();
+        if (!insurances)
+            {
+                throw new NotFoundException('No insurances were found');
+            }
+            return insurances;
     }
 
     /**
@@ -20,8 +26,14 @@ export class InsuranceService {
      * @param id string id of the plan
      * @returns InsurancePlan schema in question
      */
-    async get(id: string) {
-        return InsurancePlan.findById(id);
+    async get(id: string) 
+    {
+        const plan = await InsurancePlan.findById(id);
+        if (!plan)
+            {
+                throw new NotFoundException('No insurances by this ID was found');
+            }
+            return plan;
     }
 
     /**
@@ -31,8 +43,14 @@ export class InsuranceService {
      * @param id sting id of schema to delete
      * @returns nil []
      */
-    async delete(id: string) {
-        await InsurancePlan.findByIdAndDelete(id);
+    async delete(id: string) 
+    {
+        const plan = await InsurancePlan.findByIdAndDelete(id);
+        if (!plan)
+            {
+                throw new NotFoundException('No insurance plan by that ID was found');
+            }
+            return plan;
     }
 
     /**
@@ -58,6 +76,11 @@ export class InsuranceService {
      * @returns nil []
      */
     async update(id: string, data: IInsurancePlan){
-        await InsurancePlan.findByIdAndUpdate(id, data);
+        const plan = await InsurancePlan.findByIdAndUpdate(id, data);
+        if (!plan)
+            {
+                throw new NotFoundException('No insurance by that ID was found')
+            }
+            return plan;
     }
 }   
