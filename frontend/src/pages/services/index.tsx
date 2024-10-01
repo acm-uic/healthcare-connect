@@ -1,9 +1,9 @@
-import DisplayServices from "@/components/DisplayServices";
+
 
 const Services = () => {
     return (
         <div>
-            <DisplayServices/>
+            <h1>Services</h1>
         </div>
     );
 }
