@@ -1,9 +1,11 @@
 'use client';
 
+import Image from "next/image";
 import {useState, useEffect} from 'react'
 import styles from "../styles/Services.module.css";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import cart from  '../../public/cart.png'
 
 const DisplayServices = () => {
     interface Service {
@@ -71,9 +73,14 @@ const DisplayServices = () => {
         return (
             <div className={styles.item} key={key}>
                 <div>
+                    <div className={styles.card_top}>
+                        <h4 className={styles.cost}>${service.cost}/mo</h4>
+                        <button className={styles.cart}>
+                            <Image src={cart} className={styles.cart} alt="shopping cart"/>
+                        </button>
+                    </div>
                     <h2 className={styles.name}>{service.name}</h2>
                     <h3>{service.eligibility}</h3>
-                    <h3>Cost: ${service.cost}</h3>
                     
                     <button className={styles.details}>
                         <Link href={`/services/${service._id}`}>Learn More</Link>
@@ -82,15 +89,32 @@ const DisplayServices = () => {
             </div>
         )
     })
-
+    
+    
     return (
         <div className={styles.container}>
-            <h1>Services</h1> 
-            {isLoading && <p>Loading...</p>} 
+            <div className={styles.title_container}>
+                <h1>Medical Services</h1> 
+                <hr/>
+                <h2>We prove to you the best choices for you. Adjust it to your health needs and make sure you undergo treatment<br/>with out highly qualified doctors you can consult with us which type of service is suitable for your health</h2>
+            </div>
+
             {error && <p>Error: {error.message}</p>}
+            {isLoading ? (
+            <div className={styles.container_grid}>
+                <div className={styles.item}>Loading...</div>
+                <div className={styles.item}>Loading...</div>
+                <div className={styles.item}>Loading...</div>
+                <div className={styles.item}>Loading...</div>
+                <div className={styles.item}>Loading...</div>
+                <div className={styles.item}>Loading...</div>   
+            </div>) : 
+            (
             <div className={styles.container_grid}>
                 {renderedServices}
-            </div>
+
+                <div className={styles.item}>n/a</div>
+            </div>)} 
         </div>
     )
 }
