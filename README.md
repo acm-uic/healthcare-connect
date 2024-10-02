@@ -2,7 +2,7 @@
 A platform to provide immigrants and refugees with personalized healthcare resources, including free/affordable insurance plans and healthcare services based on their needs.
 
 ## Features
-User Registration & Authentication:
+User Authentication:
 Secure user registration and login with JWT-based authentication.
 Role-based access control (user and admin).
 
