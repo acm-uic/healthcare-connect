@@ -1,6 +1,4 @@
 'use client';
-
-import Image from "next/image";
 import { useState, useEffect } from 'react';
 import styles from "../styles/Services.module.css";
 import Link from "next/link";
@@ -15,16 +13,17 @@ const DisplayServices = () => {
     location: string;
     eligibility: string;
     languagesSupported: string[]
+    createdAt: string
+    updatedAt: string
+    __v: number 
   }
 
   // Define ServiceData interface
   interface ServiceData {
-    message: string;
     serviceData: Service[];
   }
 
-  const [servicesData, setServicesData] = useState<ServiceData>({ message: "", serviceData: [] });
-
+  const [servicesData, setServicesData] = useState<ServiceData>({ serviceData: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -39,7 +38,7 @@ const DisplayServices = () => {
 
       const data = await res.json();
       console.log(data);
-      setServicesData(data);
+      setServicesData({ serviceData: data });
     } catch (err) {
       console.error("Error fetching services:", err);
 
@@ -55,6 +54,7 @@ const DisplayServices = () => {
 
   // useEffect to fetch services on component mount
   useEffect(() => {
+    console.log(servicesData.serviceData);
     fetchServices();
   }, []);
 
