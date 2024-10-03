@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import styles from "../styles/Services.module.css";
 import Link from "next/link";
-import cart from '../../public/cart.png';
 
 const DisplayServices = () => {
   // Define Service interface
@@ -15,7 +14,7 @@ const DisplayServices = () => {
     cost: number;
     location: string;
     eligibility: string;
-    languagesSupported: string[];
+    languagesSupported: string[]
   }
 
   // Define ServiceData interface
@@ -24,30 +23,23 @@ const DisplayServices = () => {
     serviceData: Service[];
   }
 
-  const [servicesData, setServicesData] = useState<ServiceData>({
-    message: "",
-    serviceData: []
-  });
+  const [servicesData, setServicesData] = useState<ServiceData>({ message: "", serviceData: [] });
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  // Fetch API URL from environment, add fallback in case it's undefined
-  const services_uri = process.env.NEXT_PUBLIC_API_URL
-    ? `${process.env.NEXT_PUBLIC_API_URL}/service`
-    : "/fallback-url/service";
-
   // Function to fetch services
   const fetchServices = async () => {
     try {
-      const res = await fetch(services_uri);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`);
       
       if (!res.ok) {
         throw new Error("Network response was not okay");
       }
 
-      const result: ServiceData = await res.json();
-      setServicesData(result);
+      const data = await res.json();
+      console.log(data);
+      setServicesData(data);
     } catch (err) {
       console.error("Error fetching services:", err);
 
@@ -66,27 +58,22 @@ const DisplayServices = () => {
     fetchServices();
   }, []);
 
-  const { serviceData } = servicesData;
+  
 
   // Map services to JSX elements
-  const renderedServices = serviceData.map((service: Service, key: number) => (
+  const renderedServices = servicesData.serviceData.map((service, key) => (
     <div className={styles.item} key={key}>
       <div>
-        <div className={styles.card_top}>
-          <h4 className={styles.cost}>${service.cost}/mo</h4>
-          <button className={styles.cart}>
-            <Image src={cart} alt="shopping cart" width={24} height={24} />
-          </button>
-        </div>
+        <h4 className={styles.cost}>${service.cost}/mo</h4>
         <h2 className={styles.name}>{service.name}</h2>
         <h3>{service.eligibility}</h3>
-
         <button className={styles.details}>
           <Link href={`/services/${service._id}`}>Learn More</Link>
-        </button>
+        </button> 
       </div>
     </div>
-  ));
+  ))
+
 
   return (
     <div className={styles.container}>
@@ -103,14 +90,7 @@ const DisplayServices = () => {
       {/* Error and loading states */}
       {error && <p>Error: {error.message}</p>}
       {isLoading ? (
-        <div className={styles.container_grid}>
-          <div className={styles.item}>Loading...</div>
-          <div className={styles.item}>Loading...</div>
-          <div className={styles.item}>Loading...</div>
-          <div className={styles.item}>Loading...</div>
-          <div className={styles.item}>Loading...</div>
-          <div className={styles.item}>Loading...</div>
-        </div>
+        <p>Loading...</p>
       ) : (
         <div className={styles.container_grid}>
           {renderedServices}
