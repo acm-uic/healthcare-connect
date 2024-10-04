@@ -41,9 +41,6 @@ export default function Navbar() {
           <li className={router.pathname === '/about' ? styles.active : ''}>
             <Link href="/about">About Us</Link>
           </li>
-          <li className={router.pathname === '/testimonials' ? styles.active : ''}>
-            <Link href="/testimonials">Testimonials</Link>
-          </li>
           <li className={router.pathname === '/signup' ? styles.active : ''}>
             <Link href="/signup">Sign Up</Link>
           </li>

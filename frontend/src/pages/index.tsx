@@ -29,6 +29,11 @@ const Home: React.FC = () => {
                             Services
                         </p>
                     </Link>
+                    <Link href="/insurances">
+                        <p className="py-2 px-4 bg-white text-blue-600 rounded-lg ml-4">
+                            Insurances
+                        </p>
+                    </Link>
                 </div>
             </div>
         </>
