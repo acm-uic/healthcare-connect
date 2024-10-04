@@ -64,9 +64,9 @@ const DisplayServices = () => {
   const renderedServices = servicesData.serviceData.map((service, key) => (
     <div className={styles.item} key={key}>
       <div>
-        <h4 className={styles.cost}>${service.cost}/mo</h4>
+        <h4 className={styles.cost}>${service.cost}/month</h4>
         <h2 className={styles.name}>{service.name}</h2>
-        <h3>{service.eligibility}</h3>
+        <h3 className='my-4'>Eligibility: {service.eligibility}</h3>
         <button className={styles.details}>
           <Link href={`/services/${service._id}`}>Learn More</Link>
         </button> 

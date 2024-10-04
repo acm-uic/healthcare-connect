@@ -19,7 +19,7 @@ const Home: React.FC = () => {
                     for everyone
                 </h2>
                 <div className="flex mt-8">
-                    <Link href="/register">
+                    <Link href="/signin">
                         <p className="py-2 px-4 bg-blue-600 text-white rounded-lg">
                             Get Started
                         </p>

@@ -8,6 +8,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ReduxProvider>
       <Navbar />
+      <br />
+      <br />
+      <br />
+      <br />
       <Component {...pageProps} />
     </ReduxProvider>
   );
