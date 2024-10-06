@@ -84,4 +84,97 @@ export class AuthController {
       return res.status(500).json({ message: error.message });
     }
   }
+  
+  // forgotPWD [] replace with Notion version
+  // https://supertokens.com/blog/implementing-a-forgot-password-flow
+  // https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
+  @Post('forgotPWD')
+  async forgotPWD(@Req() req: Request, @Res() res: Response) {
+    try {
+      // get email
+      const { email } = req.body
+
+      // check if the user exists
+      const user =  await User.findOne({ email });
+      if (!user){
+        console.log("Invalid email in forget password with ", email, "@ forgotPWD")
+
+        // we still want to send back a successful message so red team
+        // can't check what users exist.
+        return res.status(200).json({ message: 'Message Sent' }) 
+      } 
+
+      // if user exists...
+      
+      // generate user pwd reset token
+
+      // store token in DB with user ID and expiration time.
+        // !!!!HASH THE TOKEN!!!!
+
+      // send the token in form of email
+
+      const resetURL = `${process.env.CLIENT_URL}/auth/resetPWD?token=${ /* TOEKN */0}&code=${0/* might be needed */ }`;
+
+    }
+    catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
+  @Post('resetPWD')
+  async resetPWD(@Req() req: Request, @Res() res: Response) {
+    try {
+      const { token, code } = req.body;
+
+      // check token exists in post
+      if(!token) return res.status(400).json({message:"Token not detected"})
+
+      // get JWT and verify it is legitimate
+      const user: any = jwt.verify(token, process.env.JWT_SECRET);
+
+      // []
+      // do we need to check if the user exists from the JWT?
+      // I personally don't know if these can be forge or not. - D_C
+
+      // find if token exists, (ofc send success message regardless)
+      // const existingUser = await User.findOne({ email: user.email });
+      // if (!existingUser) return res.status(400).json({ message: 'User already exists' });
+
+      if (0) return res.status(200).json({ message: 'Password reset' });
+      
+      // res.status(200).json({ message: 'User activated' });
+
+      
+    } catch (error) {
+      console.error('Error activating user:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+    
+  }
+
+  @Post('resetPWD')
+  async redeemToken(@Req() req: Request, @Res() res: Response) {
+    try {
+      // get email
+      const { token,password } = req.body
+
+      // check if PWD exists
+      if(!password) return res.status(400).json({message:"Password not detected"})
+
+      // check if token exists
+      if(!token) return res.status(400).json({message:"Token not detected"})
+
+      
+      // check for hashed version of token in DB
+        // flag unsuccessful attempts + send success msg
+      
+      // rewrite password for user of token
+
+      // invalidate the reset token
+
+    }
+    catch (error: any) {
+      return res.status(500).json({ message: "Internal server error" });
+    }
+  }
 }
