@@ -46,8 +46,14 @@ export class AuthController {
   // Generate activation token
   async generateActivationToken(user: any) {
     const code = Math.floor(1000 + Math.random() * 9000).toString();
-    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '10m' });
+    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
     return { token, code };
+  }
+
+  // Generate reset password token
+  async generateResetPasswordToken(user: any) {
+    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
+    return { token };
   }
 
   // Account activation
@@ -84,4 +90,10 @@ export class AuthController {
       return res.status(500).json({ message: error.message });
     }
   }
+
+  @Post('forgot-password')
+  async forgotPassword(@Req() req: Request, @Res() res: Response) {
+    
+  }
+  
 }
