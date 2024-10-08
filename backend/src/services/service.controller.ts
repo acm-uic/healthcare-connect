@@ -85,5 +85,17 @@ export class ServiceController
       )
     }
   }
+
+  // Filter services by languages supported
+  @Get('filter-language')
+  async filterLanguage(@Req() req: Request, @Res() res, @Query() query: { language: string }){
+    try{
+      const services = await this.serviceService.getByLanguage(query.language);
+      console.log('Services:', services);
+      return res.status(200).json(services);
+    } catch (error: any){
+      return res.status(400).json({ message: error.message });
+    }
+  }
 }
 
