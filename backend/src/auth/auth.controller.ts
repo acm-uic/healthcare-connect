@@ -95,5 +95,10 @@ export class AuthController {
   async forgotPassword(@Req() req: Request, @Res() res: Response) {
     
   }
+
+  @Post('reset-password')
+  async resetPassword(@Req() req: Request, @Res() res: Response) {
+    
+  }
   
 }
