@@ -40,7 +40,7 @@ export class ServiceController
     }
 
   //Keeping this here before the id routes so that filter doesn't get interpreted as id
-  @Get('filter')
+  @Get('filter-location')
   async filterServicesByLocation(@Query('location') location: string, @Res() response) {
     try{
       if(!location){
