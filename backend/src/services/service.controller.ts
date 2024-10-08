@@ -39,6 +39,36 @@ export class ServiceController
       }
     }
 
+  //Keeping this here before the id routes so that filter doesn't get interpreted as id
+  @Get('filter')
+  async filterServicesByLocation(@Query('location') location: string, @Res() response) {
+    try{
+      if(!location){
+        return response.status(400).json({
+          message: 'Error: Location query parameter is required',
+        });
+      }
+      const services = await this.serviceService.getAll();
+      const filteredServices = services.filter(service =>
+        service.location.toLowerCase().includes(location.toLowerCase()),
+      );
+      console.log('Filtered Services:', filteredServices);
+
+      if(filteredServices.length === 0){
+        return response.status(400).json({
+          message: `No services found for the given location: ${location}`
+        });
+      }
+
+      return response.status(200).json(filteredServices);
+    } catch(err) {
+      return response.status(400).json({
+        message: 'Error: Unable to filter services',
+      });
+    }
+
+  }
+
   @Put(':id')
   async updateService(@Param('id') serviceId: string, @Body() createServiceDto: CreateServiceDto, @Res() response)
   {
