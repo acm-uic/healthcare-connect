@@ -1,0 +1,48 @@
+#root {
+    max-width: 1280px;
+    margin: 0 0;
+    text-align: center;
+    background-color: white;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.container .holder{
+    background-color: #E2FDFF;
+    width: 70%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    justify-content: center; 
+    border-radius: 10px;
+    padding: 2em 3em 5em 3em;
+}
+.container .holder .head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.container .holder .head h2{
+    font-size: 2rem;
+    margin: 1em 0;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+.container .holder .head button{
+    background-color: #91B9F2;
+    border-radius: 30px;
+    color: white;
+    padding: 0.8em 3em 0.8em 3em;
+    margin: -1.8em 0 0 0;
+}
+.container .holder p{
+    margin: 2em 0 0 0;
+    color: #7D7987;
+}
