@@ -116,7 +116,7 @@ export class AuthController {
       }
 
       // generate token
-      const resetToken = this.genToken(user, "1h");
+      const resetToken = this.generateToken(user, "1h");
 
       // create the reset link
       const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${(await resetToken).token}`; 
