@@ -108,11 +108,10 @@ export class AuthController {
 
       // look up user given email.
       const user = await User.findOne({ email });
+
+      // and return 400 code if user doesn't exist.
       if (!user) {
         console.log("Invalid email in forget password with ", email, "at forgotPassword in Auth")
-
-        // potential issue with input validation?
-        // https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html#forgot-password-request
         return res.status(400).json({ message: 'User doesn\'t exist' })
       }
 
@@ -120,7 +119,7 @@ export class AuthController {
       const resetToken = this.genToken(user, "1h");
 
       // create the reset link
-      const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`; 
+      const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${(await resetToken).token}`; 
 
       // send email to thy
       try {
