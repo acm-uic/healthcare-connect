@@ -47,6 +47,9 @@ export default function Navbar() {
           <li className={router.pathname === '/signin' ? styles.active : ''}>
             <Link href="/signin">Sign In</Link>
           </li>
+          <li className={router.pathname === '/profile' ? styles.active : ''}>
+            <Link href="/profile">Profile</Link>
+          </li>
         </ul>
       </div>
     </nav>
