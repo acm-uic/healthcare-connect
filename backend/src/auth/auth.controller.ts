@@ -90,10 +90,10 @@ export class AuthController {
    * Generates a JWT for a user.
    * 
    * @param user **Any** *(supposed to be a User)*
-   * @param expiration  **string** *(ie: '10m' for 10 minutes; '1h' for 1 hr)*
-   * @returns 
+   * @param expiration  **string** *Numerical value (ie: '10m' for 10 minutes; '1h' for 1 hr)*
+   * @returns **JSON object** *with signed JWT*
    */
-  async genToken(user: any, expiration: string) {
+  async generateToken(user: any, expiration: string) {
     const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: expiration });
     return { token };
   }
