@@ -93,59 +93,40 @@ export class AuthController {
    * @param expiration  **string** *Numerical value (ie: '10m' for 10 minutes; '1h' for 1 hr)*
    * @returns **JSON object** *with signed JWT*
    */
-  async generateToken(user: any, expiration: string) {
-    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: expiration });
+  async generateToken(user: any) {
+    const token = jwt.sign({ user: user }, process.env.JWT_SECRET, { expiresIn: "1h" });
     return { token };
   }
 
   // https://supertokens.com/blog/implementing-a-forgot-password-flow
   // https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
-  @Post('/forgot-password')
+  @Post('forgot-password')
   async forgotPassword(@Req() req: Request, @Res() res: Response) {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(400).json({ message: 'User not found' });
+
+    const resetToken = await this.generateToken(user) 
+    const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken.token}`;
+    const template = 'reset-password.ejs';
+
     try {
-      // get email
-      const email = req.body.email;
-
-      // look up user given email.
-      const user = await User.findOne({ email });
-
-      // and return 400 code if user doesn't exist.
-      if (!user) {
-        console.log("Invalid email in forget password with ", email, "at forgotPassword in Auth")
-        return res.status(400).json({ message: 'User doesn\'t exist' })
-      }
-
-      // generate token
-      const resetToken = this.generateToken(user, "1h");
-
-      // create the reset link
-      const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${(await resetToken).token}`; 
-
-      // send email to thy
-      try {
-        await sendEmail({
-          email: user.email,
-          subject: 'Reset Password',
-          template: 'reset-password.ejs',
-          data: { resetLink },
-        });
-  
-        res.status(201).json({
-          success: true,
-          message: "Reset password link sent to email",
-          resetToken: resetToken
-          });
-      } catch (error: any) {
-        console.error('Error sending email:', error);
-        return res.status(500).json({ message: 'Error upon sending email' })
-      }
-    }
-    catch (error: any) {
-      console.log(error);
-      res.status(500).json({ message: 'Internal server error' });
+      await sendEmail({
+        email: user.email,
+        subject: 'Reset Password',
+        template,
+        data: { resetLink },
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Reset password link sent to email',
+        resetToken: resetToken.token,
+      });
+    }catch (error: any) {
+      return res.status(500).json({ message: error.message });
     }
   }
-}
 
   @Post('reset-password')
   async resetPassword(@Req() req: Request, @Res() res: Response) {
