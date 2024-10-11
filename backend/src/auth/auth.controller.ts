@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Res, Next, Body } from '@nestjs/common';
+import { Controller, Post, Req, Res, Next, Body, Query } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.schema';
@@ -47,7 +47,7 @@ export class AuthController {
   // Generate activation token
   async generateActivationToken(user: any) {
     const code = Math.floor(1000 + Math.random() * 9000).toString();
-    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '10m' });
+    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
     return { token, code };
   }
 
@@ -145,4 +145,11 @@ export class AuthController {
       res.status(500).json({ message: 'Internal server error' });
     }
   }
+}
+
+  @Post('reset-password')
+  async resetPassword(@Req() req: Request, @Res() res: Response) {
+    
+  }
+  
 }

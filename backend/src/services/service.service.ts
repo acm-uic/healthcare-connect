@@ -44,5 +44,23 @@ export class ServiceService {
         return updatedService;
     }
 
+    async getByLanguage(language: string) {
+        // Logging to debug
+        console.log('Query Language:', language); // Logs the incoming query language
+    
+        // MongoDB query using case-insensitive regex
+        const services = await Service.find({ languagesSupported: { $regex: new RegExp(language, 'i') } });
+        
+        // Debugging output
+        console.log('Found Services:', services);
+    
+        // Throw exception if no services are found
+        if (!services || services.length === 0) {
+            throw new NotFoundException('Services not found');
+        }
+    
+        return services;
+    }    
+    
 }
 

@@ -18,9 +18,23 @@ const Home: React.FC = () => {
                     <br />
                     for everyone
                 </h2>
-                <button className="w-44 h-12 mt-12 bg-blue-500 text-white px-4 py-2 rounded-3xl">
-                    Get Started
-                </button>
+                <div className="flex mt-8">
+                    <Link href="/signin">
+                        <p className="py-2 px-4 bg-blue-600 text-white rounded-lg">
+                            Get Started
+                        </p>
+                    </Link>
+                    <Link href="/services">
+                        <p className="py-2 px-4 bg-white text-blue-600 rounded-lg ml-4">
+                            Services
+                        </p>
+                    </Link>
+                    <Link href="/insurances">
+                        <p className="py-2 px-4 bg-white text-blue-600 rounded-lg ml-4">
+                            Insurances
+                        </p>
+                    </Link>
+                </div>
             </div>
         </>
     )

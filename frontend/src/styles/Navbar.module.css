@@ -1,65 +1,125 @@
-/* components/Navbar.module.css */
-
-/*@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+/* Navbar container */
 .navbar {
-    background-color: #ffffff;
-    padding: 3em 6em;
-    color: #243248;
-    /*
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    */
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-  }
-  
+  background-color: white; /* Changed background color to white */
+  color: #333; /* Dark text color for better contrast */
+  padding: 0.8em 0; /* Reduced padding */
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2em;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+} 
+
+.logo_image {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.logo_text {
+  color: #333; /* Darker color for the logo text */
+  font-size: 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Desktop navigation links */
+.navLinks {
+  display: flex;
+  list-style: none;
+}
+
+.navLinks li {
+  margin: 0 1em;
+}
+
+.navLinks li a {
+  color: #333; /* Darker text color for links */
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.navLinks li a:hover {
+  color: #3b82f6; /* Blue color on hover */
+}
+
+/* Active link */
+.active a {
+  color: #3b82f6; /* Blue color for active link */
+}
+
+/* Media Queries for Mobile responsiveness */
+@media (max-width: 768px) {
   .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 100em; 
-    margin: 0 auto;
     flex-direction: row;
+    justify-content: space-between; /* Align logo and burger horizontally */
+    align-items: center;
+    padding: 0.5em 1em; /* Reduce padding for mobile */
   }
-  
+
   .logo {
-    display: flex;
-    font-size: 1.4rem;
-    font-weight: 500;
+    justify-content: space-between;
+    width: auto; /* Auto width for better alignment on small screens */
   }
 
-  .logo_text {
-    padding: 0.4em 0 0 0.6em;
-    line-height: 1;
-  }
-
-  .logo_image {
-    max-width: 1.5em;
-    max-height: 1.5em;
-    margin-top: 0.25em;
-  }
-  
+  /* Hide navLinks by default on mobile */
   .navLinks {
-    display: flex;
-    list-style-type: none;
-    gap: 1em;
-  }
-  
-  .navLinks li {
-    /*letter-spacing: 0.5px;*/
-    cursor: pointer;
-    color: #8f8a99;
-    /*font-size: 1.2rem;*/
-  }
-  
-  .navLinks li a {
-    text-decoration: none;
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1em;
   }
 
-  .active a {
-    border-bottom: 2px solid white;
-    color: #243248;
-    font-weight: 500;
+  /* Show only the logo on mobile by default */
+  .navLinks.mobile-hidden {
+    display: none;
   }
-  
+
+  /* If the burger menu is active, display the navLinks */
+  .navbar.active .navLinks {
+    display: flex;
+  }
+
+  /* Mobile burger icon */
+  .burger {
+    display: block;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .burger div {
+    width: 25px;
+    height: 3px;
+    background-color: #333; /* Dark burger menu color */
+    margin: 4px;
+    transition: 0.4s;
+  }
+
+  /* Transform the burger icon when active */
+  .burger.active .bar1 {
+    transform: rotate(-45deg) translate(-5px, 5px);
+  }
+
+  .burger.active .bar2 {
+    opacity: 0;
+  }
+
+  .burger.active .bar3 {
+    transform: rotate(45deg) translate(-5px, -5px);
+  }
+}
