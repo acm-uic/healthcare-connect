@@ -34,9 +34,10 @@ export class AuthController {
         template: 'activation.ejs',
         data: { activationUrl },
       });
-
-      res.status(201).json({ message: 'User created. Check your email to activate your account',
-        activationUrl });
+      res.status(201).json({
+        message: 'User created. Check your email to activate your account',
+        activationUrl
+      });
     } catch (error: any) {
       console.error('Error sending email:', error);
       next(error);
@@ -50,17 +51,11 @@ export class AuthController {
     return { token, code };
   }
 
-  // Generate reset password token
-  async generateResetPasswordToken(user: any) {
-    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return { token };
-  }
-
   // Account activation
   @Post('activate')
   async activate(@Req() req: Request, @Res() res: Response) {
     const { token, code } = req.body;
-    
+
     try {
       const user: any = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -91,9 +86,46 @@ export class AuthController {
     }
   }
 
+  /**
+   * Generates a JWT for a user.
+   * 
+   * @param user **Any** *(supposed to be a User)*
+   * @param expiration  **string** *Numerical value (ie: '10m' for 10 minutes; '1h' for 1 hr)*
+   * @returns **JSON object** *with signed JWT*
+   */
+  async generateToken(user: any) {
+    const token = jwt.sign({ user: user }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    return { token };
+  }
+
+  // https://supertokens.com/blog/implementing-a-forgot-password-flow
+  // https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
   @Post('forgot-password')
   async forgotPassword(@Req() req: Request, @Res() res: Response) {
-    
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(400).json({ message: 'User not found' });
+
+    const resetToken = await this.generateToken(user) 
+    const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken.token}`;
+    const template = 'reset-password.ejs';
+
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'Reset Password',
+        template,
+        data: { resetLink },
+      });
+      res.status(200).json({
+        success: true,
+        message: 'Reset password link sent to email',
+        resetToken: resetToken.token,
+      });
+    }catch (error: any) {
+      return res.status(500).json({ message: error.message });
+    }
   }
 
   @Post('reset-password')
