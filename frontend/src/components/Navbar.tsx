@@ -56,7 +56,6 @@ export default function Navbar() {
           <li className={router.pathname === '/about' ? styles.active : ''}>
             <Link href="/about">About Us</Link>
           </li>
-
           {/* Conditionally render based on authentication status */}
           {isSignedIn ? (
             <>
