@@ -12,6 +12,7 @@ export interface IUser extends Document {
   stripeCustomerId?: string;
   savedInsurancePlans: IInsurancePlan['_id'][];
   savedServices: IService['_id'][];
+  subscriptions: string[];
   comparePassword(candidatePassword: string): Promise<boolean>;
   SignAccessToken: () => string;
   SignRefreshToken: () => string;
@@ -24,6 +25,7 @@ const UserSchema = new Schema<IUser>(
     password: { type: String, required: true },
     role: { type: String, default: 'user' },
     stripeCustomerId: { type: String, default: null },
+    subscriptions: [{ type: String }],
     savedInsurancePlans: [{ type: Schema.Types.ObjectId, ref: 'InsurancePlan' }],
     savedServices: [{ type: Schema.Types.ObjectId, ref: 'Service' }],
   },

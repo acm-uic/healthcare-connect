@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { useAuth } from '../hooks/useAuth';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -8,6 +9,8 @@ const CheckoutForm = ({customerId}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [isProcessing, setIsProcessing] = useState(false);
+
+  const { authenticated, loading } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +24,10 @@ const CheckoutForm = ({customerId}) => {
     // Call your backend to create a SetupIntent and get the clientSecret
     const { client_secret } = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscriptions/create-setup-intent`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
       body: JSON.stringify({ customerId }), // Pass customerId
     }).then(res => res.json());
 

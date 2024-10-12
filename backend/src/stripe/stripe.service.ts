@@ -52,49 +52,9 @@ export class StripeService {
           expand: ['latest_invoice.payment_intent'],
         });
         
+        await User.findByIdAndUpdate(userId, { $push: { subscriptions: subscription.id } }, { new: true });
+        
         return subscription;
-      }
-    
-
-    // async createSubscription(userId: string, planId: string) {
-    //     const customer = await this.getOrCreateStripeCustomer(userId);
-
-    //     const priceId = await this.getPriceIdFromPlan(planId); // Get the Stripe price_id for the plan
-
-    //     const subscription = await this.stripe.subscriptions.create({
-    //     customer: customer.id,
-    //     items: [{ price: priceId }],
-    //     });
-
-    //     return subscription;
-    // }
-
-    // // Helper function to get or create a Stripe customer for the user
-    // async getOrCreateStripeCustomer(userId: string) {
-    //     // Query your database to see if the user already has a Stripe customerId
-    //     const user = await User.findById(userId);
-    //     if (user.stripeCustomerId !== null) {
-    //     return await this.stripe.customers.retrieve(user.stripeCustomerId);
-    //     }
-
-    //     const customer = await this.stripe.customers.create({ email: user.email });
-
-    //     // Save the customerId in your database
-    //     await this.saveStripeCustomerId(userId, customer.id);
-
-    //     return customer;
-    // }
-
-    // // Helper function to get Stripe price_id for the plan
-    // async getPriceIdFromPlan(planId: string) {
-    //     const plan = await InsurancePlan.findById(planId);
-    //     return plan.stripePriceId; // Assuming the Stripe priceId is saved with the insurance plan
-    // }
-    
-    // // Helper function to save the Stripe customerId in your database
-    // async saveStripeCustomerId(userId: string, stripeCustomerId: string) {
-    //     const user = await User.findByIdAndUpdate(userId, {stripeCustomerId: stripeCustomerId}, {new: true});
-    //     return user;
-    // }
+    }
 }
 
