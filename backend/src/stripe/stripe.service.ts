@@ -7,8 +7,14 @@ import { InsurancePlan } from 'src/insurance/insurance.schema';
 export class StripeService {
     private stripe: Stripe;
 
-    constructor(@Inject('STRIPE_API_KEY') private readonly apiKey: string) {
-        this.stripe = new Stripe(this.apiKey)
+    constructor() {
+        this.stripe = new Stripe(process.env.STRIPE_API_KEY)
+    }
+
+    async createSetupIntent(customerId: string): Promise<Stripe.SetupIntent> {
+      return await this.stripe.setupIntents.create({
+        customer: customerId,
+      });
     }
 
     async createSubscription(userId: string, insuranceId: string) {
@@ -24,11 +30,26 @@ export class StripeService {
         if (!user.stripeCustomerId) {
           const customer = await this.stripe.customers.create({ email: user.email, });
           user.stripeCustomerId = customer.id;
+          await user.save();
         }
-    
+        
+        const stripeProduct = await this.stripe.products.create({ name: insurance.name });
+
+        const stripePrice = await this.stripe.prices.create({
+          product: stripeProduct.id,
+          unit_amount: insurance.monthlyPremium * 100,
+          currency: 'usd',
+          recurring: {
+            interval: 'month',
+          },
+        });
+
+        const insurancePlan = await InsurancePlan.findByIdAndUpdate(insuranceId, { productId: stripeProduct.id, priceId: stripePrice.id }, { new: true });
+
         const subscription = await this.stripe.subscriptions.create({
           customer: user.stripeCustomerId,
-          items: [{ price_data: { unit_amount: insurance.monthlyPremium * 100, currency: 'usd', product: insurance.id, recurring: { interval: 'month' } } }],
+          items: [{ price_data: { unit_amount: insurance.monthlyPremium * 100, currency: 'usd', product: insurancePlan.productId, recurring: { interval: 'month' } } }],
+          expand: ['latest_invoice.payment_intent'],
         });
         
         return subscription;

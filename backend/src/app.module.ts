@@ -7,10 +7,12 @@ import { ServiceController } from "./services/service.controller";
 import { ServiceService } from "./services/service.service";
 import { AuthModule } from "./auth/auth.module";
 import { StripeModule } from './stripe/stripe.module';
+import { StripeController } from './stripe/stripe.controller';
+import { StripeService } from "./stripe/stripe.service";
 
 @Module({
-  imports: [AuthModule, StripeModule],
-  controllers: [InsuranceController, UserController, ServiceController],
-  providers: [InsuranceService, UserService, ServiceService],
+  imports: [AuthModule, StripeModule.forRootAsync()],
+  controllers: [InsuranceController, UserController, ServiceController, StripeController],
+  providers: [InsuranceService, UserService, ServiceService, StripeService]
 })
 export class AppModule {}
