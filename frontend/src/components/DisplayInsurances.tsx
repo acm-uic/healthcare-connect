@@ -78,7 +78,7 @@ const DisplayInsurances = () => {
           We provide to you the best choices for you. Adjust to your health needs and make sure you undergo treatment with our highly qualified doctors. You can consult with us to find out which type of service is suitable for your health.
         </h2>
       </div>
-
+      
       {/* Error and loading states */}
       {error && <p>Error: {error.message}</p>}
       {isLoading ? (

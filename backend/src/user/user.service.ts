@@ -6,7 +6,7 @@ import { Service } from 'src/services/service.schema';
 export class UserService {
 
     async getUser(userId: string) {
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).select('-password');
         if (!user) {
             throw new NotFoundException('User not found');
         }
@@ -22,7 +22,7 @@ export class UserService {
     }
 
     async getUsers() {
-        const users = await User.find();
+        const users = await User.find().sort({createdAt: -1});
         if (!users || users.length == 0) {
             throw new NotFoundException('Users not found');
         }

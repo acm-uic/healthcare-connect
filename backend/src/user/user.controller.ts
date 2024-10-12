@@ -1,9 +1,24 @@
 import { Controller, Req, Get, Post, Put, Delete, Param, Body, UseGuards, Res, BadRequestException, HttpStatus, NotFoundException  } from '@nestjs/common';
 import { UserService } from './user.service';
+import { JwtGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
 
+@UseGuards(JwtGuard, RolesGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('me')
+  async getMe(@Req() req: any) {
+    try {
+      const userId = req.user.sub
+      const user = await this.userService.getUser(userId);
+      return user;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
 
   @Get(':id')
   async getUser(@Param('id') id: string) {

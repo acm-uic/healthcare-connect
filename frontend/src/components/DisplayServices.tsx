@@ -12,10 +12,10 @@ const DisplayServices = () => {
     cost: number;
     location: string;
     eligibility: string;
-    languagesSupported: string[]
-    createdAt: string
-    updatedAt: string
-    __v: number 
+    languagesSupported: string[];
+    createdAt: string;
+    updatedAt: string;
+    __v: number;
   }
 
   // Define ServiceData interface
@@ -26,12 +26,20 @@ const DisplayServices = () => {
   const [servicesData, setServicesData] = useState<ServiceData>({ serviceData: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [language, setLanguage] = useState<string>(''); // State to track selected language
+  const [searchTerm, setSearchTerm] = useState<string>(''); // New state for search term
 
-  // Function to fetch services
-  const fetchServices = async () => {
+  // Function to fetch services, optionally filtered by language
+  const fetchServices = async (filterLanguage?: string) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/service`);
-      
+      let url = `${process.env.NEXT_PUBLIC_API_URL}/service`;
+
+      if (filterLanguage) {
+        url = `${process.env.NEXT_PUBLIC_API_URL}/service/filter-language?language=${filterLanguage}`;
+      }
+
+      const res = await fetch(url);
+
       if (!res.ok) {
         throw new Error("Network response was not okay");
       }
@@ -52,16 +60,25 @@ const DisplayServices = () => {
     }
   };
 
-  // useEffect to fetch services on component mount
+  // Fetch all services on component mount
   useEffect(() => {
-    console.log(servicesData.serviceData);
     fetchServices();
   }, []);
 
-  
+  // Handle language filter form submission
+  const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    fetchServices(language); // Fetch services by the selected language
+  };
+
+  // Filter services based on the search term
+  const filteredServices = servicesData.serviceData.filter(service => 
+    service.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    service.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // Map services to JSX elements
-  const renderedServices = servicesData.serviceData.map((service, key) => (
+  const renderedServices = filteredServices.map((service, key) => (
     <div className={styles.item} key={key}>
       <div>
         <h4 className={styles.cost}>${service.cost}/month</h4>
@@ -69,11 +86,10 @@ const DisplayServices = () => {
         <h3 className='my-4'>Eligibility: {service.eligibility}</h3>
         <button className={styles.details}>
           <Link href={`/services/${service._id}`}>Learn More</Link>
-        </button> 
+        </button>
       </div>
     </div>
-  ))
-
+  ));
 
   return (
     <div className={styles.container}>
@@ -86,7 +102,30 @@ const DisplayServices = () => {
           with highly qualified doctors. You can consult with us to find out which type of service is suitable for your health.
         </h2>
       </div>
-  
+
+      {/* Search bar */}
+      <div className={styles.searchBar}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search for services..."
+        />
+      </div>
+
+      {/* Language Filter */}
+      <form onSubmit={handleFilter} className={styles.filterForm}>
+        <label htmlFor="language">Filter by language: </label>
+        <input
+          type="text"
+          id="language"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          placeholder="Enter language"
+        />
+        <button type="submit">Apply</button>
+      </form>
+
       {/* Error and loading states */}
       {error && <p>Error: {error.message}</p>}
       {isLoading ? (
@@ -98,7 +137,6 @@ const DisplayServices = () => {
       )}
     </div>
   );
-  
 };
 
 export default DisplayServices;
