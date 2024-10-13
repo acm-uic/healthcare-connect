@@ -94,4 +94,24 @@ export class UserService {
         await user.save();
         return user;
     }
+
+    async removeSubscription(userId: string, subscriptionId: string){
+        const user = await User.findById(userId);
+
+        if(!user){
+            throw new NotFoundException("User not found");
+        }
+
+        if(!user.subscriptions.includes(subscriptionId)){
+            throw new NotFoundException("Subscription is not found");
+        }
+
+        user.subscriptions = user.subscriptions.filter((subId) => {
+            subId.toString() !== subscriptionId
+        });
+
+        await user.save();
+
+        return user;
+    }
 }

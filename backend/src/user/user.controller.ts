@@ -76,7 +76,7 @@ export class UserController {
         console.error(err);
         throw err;
       }
-    }
+  }
 
   @Get(':userId/services')
     async getServices(@Param('userId') userId: string){
@@ -90,23 +90,23 @@ export class UserController {
         console.error(err);
         throw err;
       }
-    }
+  }
     
-    @Delete(':userId/remove-service/:serviceId')
-    async removeSavedService(
-      @Param('userId') userId: string,
-      @Param('serviceId') serviceId: string
-    ){
-      try{
-        const updatedUser = await this.userService.removeSavedService(userId, serviceId);
-        return {
-          message: 'Service removed successfully',
-          user: updatedUser,
-        };
+  @Delete(':userId/remove-service/:serviceId')
+  async removeSavedService(
+    @Param('userId') userId: string,
+    @Param('serviceId') serviceId: string
+  ){
+    try{
+      const updatedUser = await this.userService.removeSavedService(userId, serviceId);
+      return {
+        message: 'Service removed successfully',
+        user: updatedUser,
+      };
 
-      } catch(err){
-        console.log(err);
-        throw err;
-      }
+    } catch(err){
+      console.log(err);
+      throw err;
     }
+  }
 }
