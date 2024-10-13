@@ -57,13 +57,10 @@ export class StripeService {
         
         return subscription;
     }
-    async cancelSubscription(subscriptionId: string)
-    {
+
+    async cancelSubscription(subscriptionId: string) {
       const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
-      if(!subscription)
-        {
-          throw new Error('ID not found');
-        }
+      if(!subscription) throw new Error('ID not found');
       return this.stripe.subscriptions.cancel(subscriptionId);
     }
 }
