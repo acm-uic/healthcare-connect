@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { StripeService } from './stripe.service';
 import { Roles } from '../auth/roles.decorator';
-import { Post, Param, Req, Body } from '@nestjs/common';
+import { Post, Param, Req, Body, Delete } from '@nestjs/common';
 import { UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../auth/jwt-auth.guard';
 
@@ -20,5 +20,10 @@ export class StripeController {
   async subscribeToPlan(@Param('planId') planId: string, @Req() req) {
     const userId = req.user.sub;
     return this.stripeService.createSubscription(userId, planId);
+  }
+
+  @Delete('cancel-subscription/:subscriptionId')
+  async cancelSubscription(@Param('subscriptionId') subscriptionId: string) {
+    return this.stripeService.cancelSubscription(subscriptionId);
   }
 }

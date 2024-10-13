@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 import { User } from 'src/user/user.schema';
 import { InsurancePlan } from 'src/insurance/insurance.schema';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class StripeService {
@@ -55,6 +56,12 @@ export class StripeService {
         await User.findByIdAndUpdate(userId, { $push: { subscriptions: subscription.id } }, { new: true });
         
         return subscription;
+    }
+
+    async cancelSubscription(subscriptionId: string) {
+      const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
+      if(!subscription) throw new Error('ID not found');
+      return this.stripe.subscriptions.cancel(subscriptionId);
     }
 }
 
