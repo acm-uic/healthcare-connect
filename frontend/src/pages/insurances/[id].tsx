@@ -3,7 +3,6 @@ import styles from '../../styles/ServiceDetails.module.css';
 import { useRouter } from "next/router";
 import {useState, useEffect} from 'react'
 
-
 export default function Insurance() {
     const router = useRouter()
     const { id } = router.query
@@ -12,7 +11,6 @@ export default function Insurance() {
     useEffect(() => {
         if (router.isReady) {
             setInsuranceID(router.query.id as string); // Only set when query is ready
-            console.log(router.query.id); 
         }
     }, [router.isReady, router.query.id]);
 
@@ -47,7 +45,7 @@ export default function Insurance() {
             if (!insuranceID) return
                 
             // Use insuranceID to create API URL
-            const insurance_uri =  `${process.env.NEXT_PUBLIC_API_URL}/insurance/${insuranceID}`
+            const insurance_uri =  `${process.env.NEXT_PUBLIC_API_URL}/insurance-plan/${insuranceID}`
             const res = await fetch(`${insurance_uri}`)
 
             // Check response
@@ -71,8 +69,6 @@ export default function Insurance() {
             fetchInsurance();
         }
     }, [insuranceID])
-
-    console.log(insuranceData)
 
     return (
         <div>
