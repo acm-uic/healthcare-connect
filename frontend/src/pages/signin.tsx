@@ -8,8 +8,6 @@ const SignIn: React.FC = () => {
         e.preventDefault();
     }
 
-    
-
     return (
         <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
             <input

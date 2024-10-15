@@ -6,7 +6,7 @@ import { IInsurancePlan } from './insurance.schema';
 export class InsuranceController {
   constructor(private readonly insuranceService: InsuranceService) {}
 
-  @Get('filter')
+  @Get('filter-monthly-premium')
   async filterInsurancePlans(
     @Req() req,
     @Res() res,

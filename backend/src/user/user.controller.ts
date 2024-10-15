@@ -1,9 +1,24 @@
 import { Controller, Req, Get, Post, Put, Delete, Param, Body, UseGuards, Res, BadRequestException, HttpStatus, NotFoundException  } from '@nestjs/common';
 import { UserService } from './user.service';
+import { JwtGuard } from 'src/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
 
+@UseGuards(JwtGuard, RolesGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('me')
+  async getMe(@Req() req: any) {
+    try {
+      const userId = req.user.sub
+      const user = await this.userService.getUser(userId);
+      return user;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+  }
 
   @Get(':id')
   async getUser(@Param('id') id: string) {
@@ -61,7 +76,7 @@ export class UserController {
         console.error(err);
         throw err;
       }
-    }
+  }
 
   @Get(':userId/services')
     async getServices(@Param('userId') userId: string){
@@ -75,23 +90,23 @@ export class UserController {
         console.error(err);
         throw err;
       }
-    }
+  }
     
-    @Delete(':userId/remove-service/:serviceId')
-    async removeSavedService(
-      @Param('userId') userId: string,
-      @Param('serviceId') serviceId: string
-    ){
-      try{
-        const updatedUser = await this.userService.removeSavedService(userId, serviceId);
-        return {
-          message: 'Service removed successfully',
-          user: updatedUser,
-        };
+  @Delete(':userId/remove-service/:serviceId')
+  async removeSavedService(
+    @Param('userId') userId: string,
+    @Param('serviceId') serviceId: string
+  ){
+    try{
+      const updatedUser = await this.userService.removeSavedService(userId, serviceId);
+      return {
+        message: 'Service removed successfully',
+        user: updatedUser,
+      };
 
-      } catch(err){
-        console.log(err);
-        throw err;
-      }
+    } catch(err){
+      console.log(err);
+      throw err;
     }
+  }
 }
