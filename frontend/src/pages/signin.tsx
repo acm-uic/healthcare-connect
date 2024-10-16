@@ -9,7 +9,7 @@ const SignIn: React.FC = () => {
     }
 
     const [signin, setSignin] = useState<Signin | null>(null)
-    const [error, setError] = useState<Error | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
     const handleSignin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSignin((prevFormData) => {
@@ -46,35 +46,38 @@ const SignIn: React.FC = () => {
                 localStorage.setItem('user', JSON.stringify(json))
             }
         } catch (err) {
-            console.log(err)
-            setError()
+            console.error(err)
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unknown error has occurred");
+            }
         }
-
-
     }
 
     return (
         <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
+            <h1 className="mb-4 text-2xl ">Sign In</h1>
             <input
                 type="email"
                 placeholder="Email"
-                className="mb-2 p-2 border border-gray-300 rounded"
+                className="w-full mb-2 p-2 border border-gray-300 rounded"
                 onChange={handleSignin}
                 name="email"
             />
             <input
                 type="password"
                 placeholder="Password"
-                className="mb-4 p-2 border border-gray-300 rounded"
+                className="w-full mb-4 p-2 border border-gray-300 rounded"
                 onChange={handleSignin}
                 name="password"
             />
-            <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+            <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded ">
                 Sign In
             </button>
 
-            <div>
-                {error && <p>ERROR: {error}</p>}
+            <div className="mt-8 text-red-500">
+                {error && <p>{error}</p>}
             </div>
         </form>
     );

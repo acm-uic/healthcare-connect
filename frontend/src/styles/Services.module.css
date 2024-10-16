@@ -176,7 +176,7 @@
 .searchBar {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 3em 0 2em 0; /* adjusted margins*/
 }
 
 .searchBar input {
