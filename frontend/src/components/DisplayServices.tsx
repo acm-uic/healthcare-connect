@@ -23,7 +23,7 @@ const DisplayServices = () => {
     serviceData: Service[];
   }
 
-  const [servicesData, setServicesData] = useState<ServiceData>({ serviceData: [] });
+  const [servicesData, setServicesData] = useState<ServiceData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [language, setLanguage] = useState<string>(''); // State to track selected language
@@ -72,13 +72,14 @@ const DisplayServices = () => {
   };
 
   // Filter services based on the search term
-  const filteredServices = servicesData.serviceData.filter(service => 
+  const filteredServices =  servicesData?.serviceData.filter(service => 
     service.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     service.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Map services to JSX elements
-  const renderedServices = filteredServices.map((service, key) => (
+
+// Map services to JSX elements
+  const renderedServices = filteredServices?.map((service, key) => (
     <div className={styles.item} key={key}>
       <div>
         <h4 className={styles.cost}>${service.cost}/month</h4>
@@ -91,6 +92,7 @@ const DisplayServices = () => {
     </div>
   ));
 
+  console.log("Test: t", servicesData)
   return (
     <div className={styles.container}>
       <div className={styles.title_container}>
