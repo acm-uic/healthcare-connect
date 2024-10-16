@@ -47,6 +47,7 @@ const SignIn: React.FC = () => {
             if (res.ok) {
                 localStorage.setItem('access_token', JSON.stringify(json))
                 console.log("ok response")
+                router.push("/")
             }
         } catch (err) {
             console.error(err)
@@ -57,7 +58,6 @@ const SignIn: React.FC = () => {
             }
         }
         
-        router.push("/")
     }
 
     return (

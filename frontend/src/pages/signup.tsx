@@ -2,6 +2,7 @@
 import React from 'react';
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const SignUp: React.FC = () => {
     interface Signup {
@@ -13,7 +14,8 @@ const SignUp: React.FC = () => {
     }
 
     const [signup, setSignup] = useState<Signup | null>()
-    const [error, setError] = useState<string| null>()
+    const [error, setError] = useState<string | null>()
+    const router = useRouter()
 
     const handleSignup = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSignup((prevFormData) => {
@@ -66,12 +68,12 @@ const SignUp: React.FC = () => {
 
             if (res.ok) {
                 localStorage.setItem('user', JSON.stringify(json))
-                console.log("Worked")
+                console.log("Success")
+                router.push("/")
             }
         } catch (err) {
             console.error(err)
         }
-
     }
 
     return (
