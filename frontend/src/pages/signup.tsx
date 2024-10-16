@@ -23,7 +23,7 @@ const SignUp: React.FC = () => {
                 email: "",
                 password: "",
                 confirm_password: "",
-                role: "user"
+                role: ""
             }
 
             // console.log(event.target.value)
@@ -38,6 +38,7 @@ const SignUp: React.FC = () => {
         e.preventDefault();
 
         // Check if signup is not null and the passwords are not empty
+        /*
         if (signup && signup.password && signup.confirm_password) {
             if (signup.password !== signup.confirm_password) {
                 setError("Passwords do not match");
@@ -49,7 +50,7 @@ const SignUp: React.FC = () => {
             setError("Password fields cannot be empty")
             return
         }
-
+*/
         const apiURI = `${process.env.NEXT_PUBLIC_API_URL}/auth/signup`
         try {
             const res = await fetch(apiURI, {
@@ -99,11 +100,11 @@ const SignUp: React.FC = () => {
                 name="password"
             />
             <input
-                type="password"
-                placeholder="Confirm Password"
+                type="role"
+                placeholder="Role"
                 className="mb-4 p-2 border border-gray-300 rounded w-full"
                 onChange={handleSignup}
-                name="confirm_password"
+                name="role"
             />
             <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
                 Sign Up

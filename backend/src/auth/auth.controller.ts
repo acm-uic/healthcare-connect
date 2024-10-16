@@ -25,7 +25,7 @@ export class AuthController {
 
     // Generate activation token
     const tokenInfo = await this.generateActivationToken(newUser);
-    const activationUrl = `${process.env.CLIENT_URL}/auth/activate?token=${tokenInfo.token}&code=${tokenInfo.code}`;
+    const activationUrl = `${process.env.CLIENT_URL}/activate?token=${tokenInfo.token}&code=${tokenInfo.code}`;
 
     try {
       await sendEmail({
