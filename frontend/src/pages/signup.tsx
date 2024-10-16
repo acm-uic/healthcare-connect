@@ -66,6 +66,7 @@ const SignUp: React.FC = () => {
 
             if (res.ok) {
                 localStorage.setItem('user', JSON.stringify(json))
+                console.log("Worked")
             }
         } catch (err) {
             console.error(err)
@@ -75,7 +76,7 @@ const SignUp: React.FC = () => {
 
     return (
         <form className="flex flex-col items-start p-4 max-w-sm mx-auto" onSubmit={handleSubmit}>
-            <h1 className="mb-4 text-2xl ">Sign In</h1>
+            <h1 className="mb-4 text-2xl ">Sign Up</h1>
             <input
                 type="text"
                 placeholder="Name"

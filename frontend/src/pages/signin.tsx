@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react';
 
 const SignIn: React.FC = () => {
@@ -10,6 +11,7 @@ const SignIn: React.FC = () => {
 
     const [signin, setSignin] = useState<Signin | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const router = useRouter()
 
     const handleSignin = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSignin((prevFormData) => {
@@ -43,7 +45,8 @@ const SignIn: React.FC = () => {
             }
 
             if (res.ok) {
-                localStorage.setItem('user', JSON.stringify(json))
+                localStorage.setItem('access_token', JSON.stringify(json))
+                console.log("ok response")
             }
         } catch (err) {
             console.error(err)
@@ -53,6 +56,8 @@ const SignIn: React.FC = () => {
                 setError("An unknown error has occurred");
             }
         }
+        
+        router.push("/")
     }
 
     return (
