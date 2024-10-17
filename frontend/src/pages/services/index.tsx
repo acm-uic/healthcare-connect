@@ -3,7 +3,7 @@ import DisplayServices from "@/components/DisplayServices";
 const Services = () => {
     return (
         <div>
-            <DisplayServices/>
+            <DisplayServices />
         </div>
     );
 }

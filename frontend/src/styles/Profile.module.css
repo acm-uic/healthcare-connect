@@ -1,73 +1,126 @@
 /* Profile.module.css */
+
 .profilePageContainer {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .profileHeader {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  
-  .profileTitle {
-    font-size: 2rem;
-    color: #333333;
-    margin-bottom: 10px;
-    font-weight: 600;
-  }
-  
-  .profileDetail {
-    font-size: 1rem;
-    color: #666666;
-    margin-bottom: 5px;
-  }
-  
-  .profileDetail strong {
-    font-weight: bold;
-  }
-  
-  .section {
-    margin-bottom: 40px;
-  }
-  
-  .sectionTitle {
-    font-size: 1.5rem;
-    color: #000000;
-    margin-bottom: 20px;
-  }
-  
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profileHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.profileTitle {
+  font-size: 2rem;
+  color: #333333;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.profileDetail {
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 5px;
+}
+
+.profileDetail strong {
+  font-weight: bold;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+  font-size: 1.5rem;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
   .gridContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
-  
-  @media (max-width: 768px) {
-    .gridContainer {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
+}
+
+@media (max-width: 480px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
   }
-  
-  @media (max-width: 480px) {
-    .gridContainer {
-      grid-template-columns: 1fr;
-    }
-  }
-  
-  .gridCard {
-    background-color: #e0f7fa;
-    border-radius: 12px;
-    padding: 20px;
-    font-size: 1.2rem;
-    color: #000000;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-  }
-  
-  .gridCard:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  }
-  
+}
+
+.gridCard {
+  background-color: #e0f7fa;
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 1.2rem;
+  color: #000000;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.gridCard:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Remove Button styles */
+.removeBtn {
+  background-color: #ff4b5c;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.removeBtn:hover {
+  background-color: #e0434e;
+}
+
+.removeBtn:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error/Success Message */
+.message {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.errorMessage {
+  color: #ff4b5c;
+}
+
+.successMessage {
+  color: #28a745;
+}

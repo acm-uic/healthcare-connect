@@ -1,5 +1,6 @@
 import React from 'react';
-import styles from '../styles/Profile.module.css';
+import styles from '../styles/Profile.module.css'; // The CSS file is correctly imported
+import ServiceList from './ServiceList';
 
 const ProfilePage: React.FC = () => {
   const savedInsurances = [
@@ -15,34 +16,29 @@ const ProfilePage: React.FC = () => {
   ];
 
   return (
-    <div className={styles.profilePageContainer}>
-      <div className={styles.profileHeader}>
-        <h1 className={styles.profileTitle}>My Profile</h1>
-        <p className={styles.profileDetail}><strong>Full Name:</strong> John Doe</p>
-        <p className={styles.profileDetail}><strong>Email:</strong> johndoe@email.com</p>
-        <p className={styles.profileDetail}><strong>Role:</strong> User</p>
+    <div className={styles.profilePageContainer}> {/* Class is correctly applied */}
+      <div className={styles.profileHeader}> {/* Correct class */}
+        <h1 className={styles.profileTitle}>My Profile</h1> {/* Correct class */}
+        <p className={styles.profileDetail}><strong>Full Name:</strong> John Doe</p> {/* Correct class */}
+        <p className={styles.profileDetail}><strong>Email:</strong> johndoe@email.com</p> {/* Correct class */}
+        <p className={styles.profileDetail}><strong>Role:</strong> User</p> {/* Correct class */}
       </div>
 
-      <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Saved Insurances</h2>
-        <div className={styles.gridContainer}>
+      <div className={styles.section}> {/* Correct class */}
+        <h2 className={styles.sectionTitle}>Saved Insurances</h2> {/* Correct class */}
+        <div className={styles.gridContainer}> {/* Correct class */}
           {savedInsurances.map((insurance) => (
-            <div className={styles.gridCard} key={insurance.id}>
+            <div className={styles.gridCard} key={insurance.id}> {/* Correct class */}
               {insurance.name}
             </div>
           ))}
         </div>
       </div>
 
-      <div className={styles.section}>
+      <div className={styles.section}> {/* Correct class */}
         <h2 className={styles.sectionTitle}>Saved Services</h2>
-        <div className={styles.gridContainer}>
-          {savedServices.map((service) => (
-            <div className={styles.gridCard} key={service.id}>
-              {service.name}
-            </div>
-          ))}
-        </div>
+        {/* ServiceList component */}
+        <ServiceList services={savedServices} userId="1" />
       </div>
     </div>
   );
