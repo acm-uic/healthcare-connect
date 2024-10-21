@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { User } from './user.schema';
 import { Service } from 'src/services/service.schema';
+import { InsurancePlan } from 'src/insurance/insurance.schema';
 
 @Injectable()
 export class UserService {
@@ -74,6 +75,30 @@ export class UserService {
             throw new BadRequestException('Saved service already exists');
         }
         return user;
+    }
+
+    async saveInsurancePlan(userId:string, insuranceId: string) {
+        const user = await User.findById(userId);
+
+        if(!user) {
+            throw new NotFoundException('User ID not found');
+        }
+
+        const insurance = await InsurancePlan.findById(insuranceId);
+        if(!insurance){
+            throw new NotFoundException('Service ID not found'); 
+        }
+
+        if(!user.savedInsurancePlans.includes(insuranceId)) {
+            user.savedInsurancePlans.push(insuranceId);
+            await user.save();
+        }
+
+        else {
+            throw new BadRequestException('Saved service already exists');
+        }
+        return user;
+
     }
 
     async removeSavedService(userId: string, serviceId: string){

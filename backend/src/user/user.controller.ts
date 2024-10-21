@@ -3,7 +3,6 @@ import { UserService } from './user.service';
 import { JwtGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 
-@UseGuards(JwtGuard, RolesGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -77,6 +76,22 @@ export class UserController {
         throw err;
       }
   }
+
+  @Post(':userId/save-insurance/:insuranceId')
+    async saveInsurance(@Param('userId') userId: string, @Param('insuranceId') insuranceId: string){
+      try
+      {
+        const savedInsurance = await this.userService.saveInsurancePlan(userId, insuranceId);
+        return savedInsurance;
+      } 
+      catch(err)
+      {
+        console.error(err);
+        throw err;
+      }
+  }
+
+
 
   @Get(':userId/services')
     async getServices(@Param('userId') userId: string){

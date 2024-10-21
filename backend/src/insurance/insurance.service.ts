@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { IInsurancePlan, InsurancePlan } from './insurance.schema';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import { User } from 'src/user/user.schema';
+import { InsurancePlan, IInsurancePlan } from 'src/insurance/insurance.schema';
 
 @Injectable()
 export class InsuranceService {
