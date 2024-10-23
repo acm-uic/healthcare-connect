@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import styles from "../styles/Insurances.module.css"; // Ensure this path is correct
 import Link from "next/link";
 
-const DisplayInsurances = () => {
+const DisplayInsurances = ({ userId }: { userId: string }) => {
   // Define Insurance interface
   interface Insurance {
     _id: string;
@@ -25,6 +25,7 @@ const DisplayInsurances = () => {
   const [insuranceData, setInsuranceData] = useState<InsuranceData>({ insuranceData: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
+  const [saveLoading, setSaveLoading] = useState<string | null>(null);
 
   // Function to fetch insurance plans
   const fetchInsurancePlans = async () => {
@@ -66,8 +67,38 @@ const DisplayInsurances = () => {
       <button className={styles.details}>
         <Link href={`/insurances/${insurance._id}`}>View Details</Link>
       </button>
+      <button
+        className={styles.details}
+        onClick={() => saveInsurance(insurance._id)}
+        disabled={saveLoading === insurance._id}  // Disable while saving this insurance
+      >
+        {saveLoading === insurance._id ? "Saving..." : "Save"}
+      </button>
+
     </div>
   ));
+
+  const saveInsurance = async (insuranceId: string) => {
+    setSaveLoading(insuranceId);  // Set loading state for the specific insurance
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/${userId}/save-insurance/${insuranceId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!res.ok) {
+        throw new Error("Failed to save insurance.");
+      }
+      alert("Insurance saved successfully!");
+    } catch (err) {
+      console.error("Error saving insurance:", err);
+      alert("Error occurred while saving insurance.");
+    } finally {
+      setSaveLoading(null);  // Reset loading state
+    }
+  };
 
   return (
     <div className={styles.container}>
