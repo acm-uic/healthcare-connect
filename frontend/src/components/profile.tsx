@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
-// Styled Components
+// Styled Components 
 const ProfilePageContainer = styled.div`
   max-width: 1200px;
   margin: 0 auto;
@@ -67,51 +68,98 @@ const GridCard = styled.div`
   }
 `;
 
-const ProfilePage: React.FC = () => {
-  const savedInsurances = [
-    { id: 1, name: 'Health Insurance' },
-    { id: 2, name: 'Car Insurance' },
-    { id: 3, name: 'Home Insurance' }
-  ];
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 1rem;
+  text-align: center;
+`;
 
-  const savedServices = [
-    { id: 1, name: 'Plumbing Service' },
-    { id: 2, name: 'Cleaning Service' },
-    { id: 3, name: 'Electrical Service' }
-  ];
+const LoadingSpinner = styled.div`
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 20px;
+`;
+
+const ProfilePage: React.FC = () => {
+  const [userData, setUserData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken'); 
+
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get('/api/user/me', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserData(response.data);
+      } catch (err) {
+        setError('Failed to load user data. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (loading) {
+    return <LoadingSpinner>Loading...</LoadingSpinner>;
+  }
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
+
+  if (!userData) {
+    return <ErrorMessage>No user data available.</ErrorMessage>;
+  }
+
+  const { name, email, role, savedInsurances, savedServices } = userData;
 
   return (
     <ProfilePageContainer>
-     
       <ProfileHeader>
         <ProfileTitle>My Profile</ProfileTitle>
-        <ProfileDetail><strong>Full Name:</strong> John Doe</ProfileDetail>
-        <ProfileDetail><strong>Email:</strong> johndoe@email.com</ProfileDetail>
-        <ProfileDetail><strong>Role:</strong> Lighter color, under the email</ProfileDetail>
+        <ProfileDetail><strong>Full Name:</strong> {name}</ProfileDetail>
+        <ProfileDetail><strong>Email:</strong> {email}</ProfileDetail>
+        <ProfileDetail><strong>Role:</strong> {role}</ProfileDetail>
       </ProfileHeader>
-
-     
-      <Section>
-        <SectionTitle>Saved Insurances</SectionTitle>
-        <GridContainer>
-          {savedInsurances.map((insurance) => (
-            <GridCard key={insurance.id}>
-              {insurance.name}
-            </GridCard>
-          ))}
-        </GridContainer>
-      </Section>
 
     
       <Section>
+        <SectionTitle>Saved Insurances</SectionTitle>
+        {savedInsurances && savedInsurances.length > 0 ? (
+          <GridContainer>
+            {savedInsurances.map((insurance: { id: number, name: string }) => (
+              <GridCard key={insurance.id}>
+                {insurance.name}
+              </GridCard>
+            ))}
+          </GridContainer>
+        ) : (
+          <p>No saved insurances found.</p>
+        )}
+      </Section>
+
+  
+      <Section>
         <SectionTitle>Saved Services</SectionTitle>
-        <GridContainer>
-          {savedServices.map((service) => (
-            <GridCard key={service.id}>
-              {service.name}
-            </GridCard>
-          ))}
-        </GridContainer>
+        {savedServices && savedServices.length > 0 ? (
+          <GridContainer>
+            {savedServices.map((service: { id: number, name: string }) => (
+              <GridCard key={service.id}>
+                {service.name}
+              </GridCard>
+            ))}
+          </GridContainer>
+        ) : (
+          <p>No saved services found.</p>
+        )}
       </Section>
     </ProfilePageContainer>
   );
