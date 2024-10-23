@@ -1,10 +1,12 @@
-import { Controller, Post, Req, Res, Next, Body, Query } from '@nestjs/common';
+import { Controller, Post, Req, Res, Next, Body, Query, Put } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.schema';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import sendEmail from '../utils/sendMail';
+import { match } from 'assert';
+import validator = require("validator");
 
 @Controller('auth')
 export class AuthController {
@@ -130,7 +132,16 @@ export class AuthController {
 
   @Post('reset-password')
   async resetPassword(@Req() req: Request, @Res() res: Response) {
-    
+    const { token, password } = req.body;
+    let user: any = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!user) return res.status(400).json({ message: 'Invalid or expired token' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    validator.isStrongPassword(password);
+    await User.updateOne({ email: user.email }, { password: hashedPassword });
+
+    res.status(200).json({ message: 'Password reset successful' });
   }
   
 }
