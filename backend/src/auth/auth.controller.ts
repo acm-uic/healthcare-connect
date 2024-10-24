@@ -1,10 +1,12 @@
-import { Controller, Post, Req, Res, Next, Body, Query } from '@nestjs/common';
+import { Controller, Post, Req, Res, Next, Body, Query, Put } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from './auth.service';
 import { User } from '../user/user.schema';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
 import sendEmail from '../utils/sendMail';
+import { match } from 'assert';
+import validator from "validator";
 
 @Controller('auth')
 export class AuthController {
@@ -107,7 +109,7 @@ export class AuthController {
 
     if (!user) return res.status(400).json({ message: 'User not found' });
 
-    const resetToken = await this.generateToken(user) 
+    const resetToken = await this.generateToken(user)
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken.token}`;
     const template = 'reset-password.ejs';
 
@@ -123,14 +125,43 @@ export class AuthController {
         message: 'Reset password link sent to email',
         resetToken: resetToken.token,
       });
-    }catch (error: any) {
+    } catch (error: any) {
       return res.status(500).json({ message: error.message });
     }
   }
 
   @Post('reset-password')
   async resetPassword(@Req() req: Request, @Res() res: Response) {
-    
+    try {
+      const { token, password } = req.body;
+
+      // check for token and password
+      if (!password) return res.status(400).json({ message: 'Missing password' });
+      if (!token) return res.status(400).json({ message: 'Missing token' });
+
+      // determine if given password in strong
+      const isStrongPwd = validator.isStrongPassword(password);
+      if (!isStrongPwd) return res.status(400).json({ message: 'Password not strong enough' });
+
+      // verify token 
+      let user: any = jwt.verify(token, process.env.JWT_SECRET);
+      if (!user) return res.status(400).json({ message: 'Invalid or expired token' });
+
+      // hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // update user details
+      await User.updateOne({ email: user.email }, { password: hashedPassword });
+
+      // give response
+      res.status(200).json({ message: 'Password reset successful' });
+    }
+    catch (error) {
+      // log the error, and send user proper 500
+      console.log("Error resetting password ", error)
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+
   }
-  
+
 }
