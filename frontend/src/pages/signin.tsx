@@ -8,7 +8,7 @@ const SignIn: React.FC = () => {
         email: string,
         password: string
     }
-
+    
     const [signin, setSignin] = useState<Signin | null>(null)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()
@@ -28,9 +28,6 @@ const SignIn: React.FC = () => {
         e.preventDefault();
         const apiURI = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`
 
-        //console.log(signin)
-
-
         try {
             const res = await fetch(apiURI, {
                 method: 'POST',
@@ -46,7 +43,6 @@ const SignIn: React.FC = () => {
 
             if (res.ok) {
                 localStorage.setItem('access_token', JSON.stringify(json))
-                console.log("ok response")
             }
         } catch (err) {
             console.error(err)
@@ -56,7 +52,6 @@ const SignIn: React.FC = () => {
                 setError("An unknown error has occurred");
             }
         }
-        
         router.push("/")
     }
 
