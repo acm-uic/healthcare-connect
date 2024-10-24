@@ -29,7 +29,15 @@ const DisplayInsurances = () => {
   // Function to fetch insurance plans
   const fetchInsurancePlans = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/insurance-plan`); // Adjust the API endpoint as necessary
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/insurance-plan`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Network response was not okay");

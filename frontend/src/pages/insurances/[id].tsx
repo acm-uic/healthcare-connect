@@ -76,7 +76,7 @@ export default function Insurance() {
                 <div className={styles.holder}>
                 <div className={styles.head}>
                     <h2>{insuranceData.name}</h2>
-                    <button>Select</button>
+                    <button>Save</button>
                 </div>
                 <p>{insuranceData.description}</p>
                 <p>${insuranceData.monthlyPremium}</p>

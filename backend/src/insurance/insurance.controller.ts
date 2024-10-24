@@ -1,7 +1,9 @@
-import { Controller, Get, Delete, Post, Put, Param, Body, Query, Req, Res } from '@nestjs/common';
+import { Controller, Get, Delete, Post, Put, Param, Body, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { InsuranceService } from './insurance.service';
 import { IInsurancePlan } from './insurance.schema';
+import { JwtGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtGuard)
 @Controller('insurance-plan')
 export class InsuranceController {
   constructor(private readonly insuranceService: InsuranceService) {}

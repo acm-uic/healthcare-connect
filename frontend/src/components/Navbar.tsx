@@ -1,35 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
-import styles from "../styles/Navbar.module.css";
-import { useRouter } from "next/router";
 import logo from '../../public/logo.png';
+import styles from "../styles/Navbar.module.css";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Navbar() {
   const router = useRouter();
-  const [isSignedIn, setIsSignedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Mock function to simulate user authentication check (you can replace this with your real logic)
-  const checkUserAuth = () => {
-    return true
-  };
-
-  // useEffect to check if the user is signed in when the component mounts
-  useEffect(() => {
-    const userSignedIn = checkUserAuth();
-    setIsSignedIn(userSignedIn);
-  }, []);
+  // Use the useAuth hook to get authentication status
+  const { authenticated } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Handle Sign Out (add your sign-out logic here)
   const handleSignOut = () => {
-    // Clear authentication token (or other methods of sign out)
-    localStorage.removeItem("authToken");
-    setIsSignedIn(false);
-    router.push("/signin"); // Redirect to the sign-in page
+    // Clear token and redirect to sign-in page
+    localStorage.removeItem('access_token');
+    router.push('/signin');
   };
 
   return (
@@ -57,14 +49,13 @@ export default function Navbar() {
             <Link href="/about">About Us</Link>
           </li>
           {/* Conditionally render based on authentication status */}
-          {isSignedIn ? (
+          {authenticated ? (
             <>
               <li className={router.pathname === '/profile' ? styles.active : ''}>
                 <Link href="/profile">Profile</Link>
               </li>
               <li>
-                <button className="text-red-500"
-                onClick={handleSignOut}>Sign Out</button>
+                <button className="text-red-500" onClick={handleSignOut}>Sign Out</button>
               </li>
             </>
           ) : (

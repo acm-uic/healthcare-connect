@@ -42,7 +42,8 @@ const SignIn: React.FC = () => {
             }
 
             if (res.ok) {
-                localStorage.setItem('access_token', JSON.stringify(json))
+                const access_token = json.access_token
+                localStorage.setItem('access_token', access_token)
             }
         } catch (err) {
             console.error(err)

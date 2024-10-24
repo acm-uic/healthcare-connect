@@ -38,14 +38,19 @@ const DisplayServices = () => {
         url = `${process.env.NEXT_PUBLIC_API_URL}/service/filter-language?language=${filterLanguage}`;
       }
 
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (!res.ok) {
         throw new Error("Network response was not okay");
       }
 
       const data = await res.json();
-      console.log(data);
       setServicesData({ serviceData: data });
     } catch (err) {
       console.error("Error fetching services:", err);
@@ -86,7 +91,7 @@ const DisplayServices = () => {
         <h2 className={styles.name}>{service.name}</h2>
         <h3 className='my-4'>Eligibility: {service.eligibility}</h3>
         <button className={styles.details}>
-          <Link href={`/services/${service._id}`}>Learn More</Link>
+          <Link href={`/services/${service._id}`}>View Details</Link>
         </button>
       </div>
     </div>
