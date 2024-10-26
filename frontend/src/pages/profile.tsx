@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from '../styles/Profile.module.css'; // The CSS file is correctly imported
-import ServiceList from './ServiceList';
+import styles from '../styles/Profile.module.css';
+import ServiceList from '../components/ServiceList';
 
 const ProfilePage: React.FC = () => {
   const savedInsurances = [
@@ -38,7 +38,7 @@ const ProfilePage: React.FC = () => {
       <div className={styles.section}> {/* Correct class */}
         <h2 className={styles.sectionTitle}>Saved Services</h2>
         {/* ServiceList component */}
-        <ServiceList services={savedServices} userId="1" />
+        {/* <ServiceList services={savedServices} userId="1" /> */}
       </div>
     </div>
   );
