@@ -30,7 +30,7 @@ const ServiceList: React.FC<ServiceListProps> = ({ services, userId }) => {
       const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/${userId}/remove-service/${serviceId}`,{
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
           },
         }
       );

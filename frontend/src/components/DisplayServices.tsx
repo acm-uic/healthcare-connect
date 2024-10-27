@@ -97,7 +97,6 @@ const DisplayServices = () => {
     </div>
   ));
 
-  console.log("Test: t", servicesData)
   return (
     <div className={styles.container}>
       <div className={styles.title_container}>

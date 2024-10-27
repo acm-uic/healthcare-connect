@@ -49,7 +49,13 @@ export default function Service() {
             if (!serviceID) return
                 
             const service_uri =  `${process.env.NEXT_PUBLIC_API_URL}/service/${serviceID}`
-            const res = await fetch(`${service_uri}`)
+            const res = await fetch(`${service_uri}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization : `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
 
             if (!res.ok) {
                 throw new Error("network was not okay")

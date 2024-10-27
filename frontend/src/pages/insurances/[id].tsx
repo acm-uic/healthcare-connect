@@ -46,7 +46,13 @@ export default function Insurance() {
                 
             // Use insuranceID to create API URL
             const insurance_uri =  `${process.env.NEXT_PUBLIC_API_URL}/insurance-plan/${insuranceID}`
-            const res = await fetch(`${insurance_uri}`)
+            const res = await fetch(`${insurance_uri}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization : `Bearer ${localStorage.getItem('access_token')}`
+                }
+            })
 
             // Check response
             if (!res.ok) {
