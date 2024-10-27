@@ -10,18 +10,16 @@ export default function Navbar() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // Use the useAuth hook to get authentication status
   const { authenticated } = useAuth();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Handle Sign Out (add your sign-out logic here)
   const handleSignOut = () => {
-    // Clear token and redirect to sign-in page
     localStorage.removeItem('access_token');
-    router.push('/signin');
+    router.push('/');
+    router.reload();
   };
 
   return (
@@ -45,9 +43,6 @@ export default function Navbar() {
 
         {/* Navigation Links */}
         <ul className={`${styles.navLinks} ${isMenuOpen ? styles.active : ''}`}>
-          <li className={router.pathname === '/about' ? styles.active : ''}>
-            <Link href="/about">About Us</Link>
-          </li>
           {/* Conditionally render based on authentication status */}
           {authenticated ? (
             <>

@@ -1,14 +1,13 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const SignIn: React.FC = () => {
     interface Signin {
         email: string,
         password: string
     }
-    
     const [signin, setSignin] = useState<Signin | null>(null)
     const [error, setError] = useState<string | null>(null)
     const router = useRouter()

@@ -9,11 +9,15 @@ export const useAuth = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('access_token');
-    if (!token) {
+    const publicRoutes = ['/signin', '/signup', '/forgot-password', '/reset-password', '/activate'];
+
+    // Check if the route is public
+    if (!token && !publicRoutes.includes(router.pathname)) {
       router.push('/signin');
-    } else {
+    } else if (token) {
       setAuthenticated(true);
     }
+
     setLoading(false);
   }, [router]);
 

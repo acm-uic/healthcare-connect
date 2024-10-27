@@ -8,7 +8,7 @@ const SignUp: React.FC = () => {
         name: string,
         email: string,
         password: string,
-        confirm_password: string,
+        // confirm_password: string,
         role: string
     }
 
@@ -22,11 +22,10 @@ const SignUp: React.FC = () => {
                 name: "",
                 email: "",
                 password: "",
-                confirm_password: "",
+                // confirm_password: "",
                 role: ""
             }
 
-            // console.log(event.target.value)
             return {
                 ...updatedFormData,
                 [event.target.name]: event.target.value,
@@ -113,6 +112,7 @@ const SignUp: React.FC = () => {
             <div className="mt-8 text-red-500">
                 {error && <p>{error}</p>}
             </div>
+
         </form>
     );
 

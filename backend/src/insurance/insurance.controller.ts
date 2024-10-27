@@ -55,7 +55,7 @@ export class InsuranceController {
 
 
   @Delete(':id')
-  async deleteSpecificInsurancePlan(@Param('id') id: string, @Res() res){
+  async deleteInsurancePlan(@Param('id') id: string, @Res() res){
     try
     {
       const plan = await this.insuranceService.delete(id)
