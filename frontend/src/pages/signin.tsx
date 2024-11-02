@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import { useState } from 'react';
 
@@ -25,6 +26,11 @@ const SignIn: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        // []
+        // No input validation!
+        // 
+
         const apiURI = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`
 
         try {
@@ -52,7 +58,16 @@ const SignIn: React.FC = () => {
                 setError("An unknown error has occurred");
             }
         }
-        router.push("/")
+
+        // Issue []
+        // For some reason when I clicked the sign in btn when I was
+        // testing code for rest-password, the error wouldn't show up
+        // as expected. When I commented route.push, the error did show
+        // up. There might be a potential error here?
+        // - D_C
+
+        // router.push("/")
+
     }
 
     return (
@@ -75,8 +90,16 @@ const SignIn: React.FC = () => {
             <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded ">
                 Sign In
             </button>
-
-            <div className="mt-8 text-red-500">
+            <div className='pt-2'>
+            {"Forgot password? Click "}
+                <Link
+                    href={'../forgot-password'}
+                    className={'text-blue-500 hover:underline'}
+                >
+                    here
+                </Link>
+            </div>
+            <div className="mt-2 text-red-500">
                 {error && <p>{error}</p>}
             </div>
         </form>
