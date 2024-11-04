@@ -55,26 +55,28 @@ Healthcare Connect is a platform designed to empower immigrants, refugees, and u
    ```bash
    git clone https://github.com/your-username/healthcare-connect.git
    cd healthcare-connect
-Install dependencies:
+   ```
+   
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-bash
-Copy code
-npm install
-Set up environment variables:
+3. Set up environment variables:
+   Create a .env file in the root directory.
+   Configure necessary environment variables for MongoDB, JWT_SECRET, and Stripe API keys.
+   Start the development server:
 
-Create a .env file in the root directory.
-Configure necessary environment variables for MongoDB, JWT_SECRET, and Stripe API keys.
-Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-bash
-Copy code
-npm run dev
-Open your browser and navigate to http://localhost:3000.
+4. Open your browser and navigate to http://localhost:3000.
 
-🤝 Contributions
+## 🤝 Contributions
 We welcome contributions! Please feel free to submit issues or create pull requests. For major changes, please open an issue first to discuss the change.
 
-📬 Contact
+## 📬 Contact
 For inquiries, support, or feedback, please contact us at kamchybekov.arslan.us@gmail.com.
 
 Healthcare Connect is committed to making healthcare accessible for all. Let's connect communities with the resources they need to thrive.
