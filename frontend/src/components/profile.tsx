@@ -84,6 +84,15 @@ const ProfilePage: React.FC = () => {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+const paginate = (items: any[]) => {
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  return items.slice(indexOfFirstItem, indexOfLastItem);
+};
+
 
   useEffect(() => {
     const token = localStorage.getItem('authToken'); 
