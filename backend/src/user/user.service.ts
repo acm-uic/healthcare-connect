@@ -86,7 +86,7 @@ export class UserService {
 
         const insurance = await InsurancePlan.findById(insuranceId);
         if(!insurance){
-            throw new NotFoundException('Service ID not found'); 
+            throw new NotFoundException('Insurance ID not found'); 
         }
 
         if(!user.savedInsurancePlans.includes(insuranceId)) {
@@ -114,6 +114,25 @@ export class UserService {
 
         user.savedServices = user.savedServices.filter((savedServiceId) => {
             savedServiceId.toString() !== serviceId
+        });
+
+        await user.save();
+        return user;
+    }
+
+    async removeSavedInsurance(userId: string, insuranceId: string){
+        const user = await User.findById(userId);
+
+        if(!user){
+            throw new NotFoundException("User not found");
+        }
+
+        if(!user.savedInsurancePlans.includes(insuranceId)){
+            throw new NotFoundException("Saved InsurancePlan is not found");
+        }
+
+        user.savedInsurancePlans = user.savedInsurancePlans.filter((savedInsurancePlans) => {
+            savedInsurancePlans.toString() !== insuranceId
         });
 
         await user.save();

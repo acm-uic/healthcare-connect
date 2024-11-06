@@ -3,7 +3,7 @@ import { UserService } from './user.service';
 import { JwtGuard } from 'src/auth/jwt-auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
 
-@UseGuards(JwtGuard, RolesGuard)
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -115,6 +115,24 @@ export class UserController {
   ){
     try{
       const updatedUser = await this.userService.removeSavedService(userId, serviceId);
+      return {
+        message: 'Service removed successfully',
+        user: updatedUser,
+      };
+
+    } catch(err){
+      console.log(err);
+      throw err;
+    }
+  }
+
+  @Delete(':userId/remove-insurance/:insuranceId')
+  async removeSavedInsurance(
+    @Param('userId') userId: string,
+    @Param('insuranceId') insuranceId: string
+  ){
+    try{
+      const updatedUser = await this.userService.removeSavedInsurance(userId, insuranceId)
       return {
         message: 'Service removed successfully',
         user: updatedUser,
