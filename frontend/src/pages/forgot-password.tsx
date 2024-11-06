@@ -2,16 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-// [] hey, what's our email for the website?
-const ORG_EMAIL = "definitely@trustworthy.email"
-
-
-/**
- * 
- * *NEEDS TESTING.*
- */
 const ForgotPassword: React.FC = () => {
-
     interface Submit {
         text: string
     }
@@ -33,32 +24,21 @@ const ForgotPassword: React.FC = () => {
             return
         }
 
-        // in case... yes
-        // please remove if this isn't needed
-        try {
-            // store backend route
-            const apiURI = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`
-            await axios.post(apiURI, {
+        const apiURI = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`;
+        await axios.post(apiURI,
+            //send email as JSON
+            {
                 email: text?.text
-            }).then((res) => {
-
-                // res.data --> data from response
-                // something needs to be done with this data I think.
-                // []
-                
-                // upon success, change the text
-                if (res.status == 200) {
-                    setReq(true)
-                }
-
-            }).catch((err) => {
-                // show error upon getting one
-                setError(err.message);
-            })
-        }
-        catch (err: any) {
-            setError(err);
-        }
+            }
+        ).then((res) => {
+            // upon success, change the text
+            if (res.status == 200) {
+                setReq(true)
+            }
+        }).catch((err) => {
+            // show error upon getting one
+            setError(err.response.data.message);
+        });
     }
 
     return (
@@ -66,18 +46,18 @@ const ForgotPassword: React.FC = () => {
             <h2 className='mb-4 text-lg'>{!sentReq ? "Forgot Password" : "Forgot Password request sent!"}</h2>
             {/* main piece changes! */}
             {!sentReq ? (
-                <div>
+                <div className='w-[-webkit-fill-available]'>
                     <input type="email" placeholder="Email"
                         className="mb-4 p-2 border border-gray-300 rounded w-full"
                         onChange={handleSignin}
                     />
                     <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">Submit</button>
-                    <div className="mt-2 text-red-500">
-                        {error && <p>{error}</p>}
+                    <div className="mt-2 text-red-500 w-[-webkit-fill-available]">
+                        {error && <p className='break-words'>{error}</p>}
                     </div>
                 </div>) :
                 <div>
-                    <p className='mt-[-0.5rem] font-light'>Check your email from {ORG_EMAIL} to reset your password for further instructions.</p>
+                    <p className='mt-[-0.5rem] font-light'>Check your email to reset your password for further instructions.</p>
                 </div>
             }
         </form>
