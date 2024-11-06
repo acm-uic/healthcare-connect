@@ -27,10 +27,6 @@ const SignIn: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // []
-        // No input validation!
-        // 
-
         const apiURI = `${process.env.NEXT_PUBLIC_API_URL}/auth/signin`
 
         try {
@@ -58,15 +54,7 @@ const SignIn: React.FC = () => {
                 setError("An unknown error has occurred");
             }
         }
-
-        // Issue []
-        // For some reason when I clicked the sign in btn when I was
-        // testing code for rest-password, the error wouldn't show up
-        // as expected. When I commented route.push, the error did show
-        // up. There might be a potential error here?
-        // - D_C
-
-        // router.push("/")
+        router.push("/")
 
     }
 
