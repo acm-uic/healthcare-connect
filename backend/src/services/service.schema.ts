@@ -7,6 +7,7 @@ export interface IService extends Document {
   location: string;
   eligibility: string;
   languagesSupported: string[];
+  providerId: string;
 }
 
 const ServiceSchema = new Schema<IService>(
@@ -17,6 +18,7 @@ const ServiceSchema = new Schema<IService>(
     location: { type: String, required: true },
     eligibility: { type: String, required: true },
     languagesSupported: { type: [String], default: [] },
+    providerId: { type: String, required: true }
   },
   { timestamps: true }
 );
