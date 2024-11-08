@@ -2,15 +2,21 @@ import { Controller, Post, Get, Put, Delete, Res, Body, Param, Req, Query, UseGu
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
 import { JwtGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/roles.guard';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/roles.decorator';
+import { Request } from 'express';
 
-@UseGuards(JwtGuard)
+// @UseGuards(JwtGuard, RolesGuard, AuthGuard('jwt'))
 @Controller('service')
 export class ServiceController 
 {
   constructor(private readonly serviceService: ServiceService) {}
 
+  @Roles('admin', 'provider')
+
   @Post()
-  async createService(@Res() response, @Body() createServiceDto: CreateServiceDto)
+  async createService(@Res() response, @Body() createServiceDto: CreateServiceDto, @Req() req: Request)
   {
     try 
     {
@@ -24,6 +30,7 @@ export class ServiceController
         });
     }
   }
+
 
   @Get()
   async getAllServices(@Res() response) 
@@ -129,5 +136,20 @@ export class ServiceController
       return res.status(400).json({ message: error.message });
     }
   }
+
+  @Get('provider/:providerId')
+  async filterServicesByProvider(
+    @Param('providerId') providerId: string,
+    @Res() res)
+    {
+      try
+      {
+        const services = await this.serviceService.getByProvider(providerId);
+        return res.status(200).json(services);
+      } catch (error: any)
+      {
+        return res.status(400).json({ message: "Error: Service not found."})
+      }
+    }
 }
 

@@ -84,4 +84,15 @@ export class InsuranceService {
             }
             return plan;
     }
+
+    async getByProvider(providerId: string): Promise<IInsurancePlan[]>
+    {
+        const plans = await InsurancePlan.find({ providerId });
+
+        if (!plans || plans.length == 0)
+        {
+            throw new NotFoundException('Plans not found')
+        }
+        return plans;
+    }
 }   

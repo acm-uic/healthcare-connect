@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { IService, Service } from './service.schema';
 import { CreateServiceDto } from './dto/create-service.dto';
+import { Request } from 'express';
 
 @Injectable()
 export class ServiceService {
 
     async create(createServiceDto: CreateServiceDto): Promise<IService> {
+
         const newService = new Service(createServiceDto);
         return newService.save();
     }
@@ -55,12 +57,26 @@ export class ServiceService {
         console.log('Found Services:', services);
     
         // Throw exception if no services are found
-        if (!services || services.length === 0) {
+        if (!services || services.length === 0) 
+        {
             throw new NotFoundException('Services not found');
         }
     
         return services;
     }    
     
+    async getByProvider(providerId: string): Promise<IService[]>
+    {
+        console.log('providerid', providerId);
+
+        const services = await Service.find({ providerId });
+
+        if (!services || services.length == 0)
+        {
+            throw new NotFoundException('Services not found')
+        }
+        return services;
+    }
+
 }
 

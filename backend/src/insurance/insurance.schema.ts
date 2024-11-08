@@ -8,6 +8,7 @@ export interface IInsurancePlan extends Document {
   eligibility: string;
   productId?: string;
   priceId?: string;
+  providerId: string;
 }
 
 const InsurancePlanSchema = new Schema<IInsurancePlan>(
@@ -19,6 +20,7 @@ const InsurancePlanSchema = new Schema<IInsurancePlan>(
     eligibility: { type: String, required: true },
     productId: { type: String, default: null },
     priceId: { type: String, default: null },
+    providerId: { type: String, required: true},
   },
   { timestamps: true }
 );

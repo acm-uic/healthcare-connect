@@ -3,7 +3,6 @@ import { InsuranceService } from './insurance.service';
 import { IInsurancePlan } from './insurance.schema';
 import { JwtGuard } from '../auth/jwt-auth.guard';
 
-@UseGuards(JwtGuard)
 @Controller('insurance-plan')
 export class InsuranceController {
   constructor(private readonly insuranceService: InsuranceService) {}
@@ -82,6 +81,19 @@ export class InsuranceController {
     catch(error)
     {
       return res.status(404).json({message: 'Error: No insurances by that ID was found'})
+    }
+  }
+
+  @Get('/provider/:providerId')
+  async getInsurancePlanByProvider(@Param('providerId') providerId: string, @Res() res){
+    try
+    {
+      const plan = await this.insuranceService.getByProvider(providerId);
+      return res.status(200).json(plan);
+    }
+    catch(error)
+    {
+      return res.status(404).json({message: 'Error: No insurances by that provider ID was found'})
     }
   }
 }
