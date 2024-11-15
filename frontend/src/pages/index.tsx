@@ -1,8 +1,16 @@
 "use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import ChatIcon from "../components/ChatIcon"; // Assuming ChatIcon.tsx is in the same directory
+import ChatWindow from "../components/Chatwindow"; // Adjust path to where ChatWindow is located
 
 const Home: React.FC = () => {
+    const [isChatOpen, setIsChatOpen] = useState(false);
+
+    const toggleChatWindow = () => {
+        setIsChatOpen(!isChatOpen);
+    };
+
     return (
         <>
             <div className="flex flex-col p-28 mt-30">
@@ -36,8 +44,12 @@ const Home: React.FC = () => {
                     </Link>
                 </div>
             </div>
-        </>
-    )
-}
 
-export default Home
+            {/* Integrate ChatBot */}
+            {isChatOpen && <ChatWindow onClose={toggleChatWindow} />}
+            <ChatIcon onClick={toggleChatWindow} />
+        </>
+    );
+};
+
+export default Home;
