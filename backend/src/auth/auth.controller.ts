@@ -107,7 +107,7 @@ export class AuthController {
     const { email } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json({ message: 'User not found' });
+    if (!user) return res.status(400).json({ message: 'User not found. Check your email!' });
 
     const resetToken = await this.generateToken(user)
     const resetLink = `${process.env.CLIENT_URL}/reset-password?token=${resetToken.token}`;
